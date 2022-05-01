@@ -77,4 +77,5 @@ def solve(bo):
 print_board(board)
 solve(board)
 print("___________________")
+print("Solve:")
 print_board(board)
