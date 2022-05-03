@@ -35,7 +35,7 @@ def dijkstra(graph, start, end):
             distances[vertex] = 0 # except start
         else: # and previous to itself
             distances[vertex] = math.inf # infinity
-            previous[vertex] = None
+            previous[vertex] = None # except start
 
     # while there are still nodes to be processed
     while nodes: # while there are nodes
@@ -65,7 +65,7 @@ def dijkstra(graph, start, end):
             sys.exit() # exit the program
     path.insert(0, start) # insert the start node into the path
     if distances[end] != math.inf: # if the end node has a distance
-        print(f'{len(path) - 1} stops, {distances[end]} miles') # print the number of stops and the distance
+        print(f'steps: {len(path) - 1}, distance: {distances[end]}') # print the number of stops and the distance
         print(' '.join(path)) # print the path
     else: # if the end node has no distance
         print('Path not found') # there is no path
