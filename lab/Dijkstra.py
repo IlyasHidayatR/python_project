@@ -34,51 +34,55 @@ def dijkstra(graph, start, end):
     path = [] # list of nodes in a path
     nodes = set(graph.keys()) # set of all nodes in a graph
 
-    for vertex in nodes: # set initial distances to infinity
-        if vertex == start: # and previous to None
+    for vertex in nodes: # set initial distances to infinity and previous (complexity O(n))
+        if vertex == start: # and previous to None for the start node (complexity O(1))
             distances[vertex] = 0 # except start
-        else: # and previous to itself
+        else: # and previous to itself (complexity O(1))
             distances[vertex] = math.inf # infinity
             previous[vertex] = None # except start
+    #compleksity: O(n)
 
     # while there are still nodes to be processed
-    while nodes: # while there are nodes
+    while nodes: # while there are nodes (O(n))
         min_node = None # minimum node
-        for node in nodes: # find the node with the minimum distance
-            if min_node is None: # if first iteration
+        for node in nodes: # find the node with the minimum distance (O(n))
+            if min_node is None: # if first iteration (O(1))
                 min_node = node # set the first node
-            elif distances[node] < distances[min_node]: # if not first iteration
+            elif distances[node] < distances[min_node]: # if not first iteration (O(n))
                 min_node = node # set the node with the minimum distance
-        if distances[min_node] == math.inf: # if the minimum distance is infinity
+        if distances[min_node] == math.inf: # if the minimum distance is infinity (O(1))
             break # there is no way to get to the end
         nodes.remove(min_node) # remove the minimum node from the nodes
-        for neighbor, distance in graph[min_node].items(): # for each neighbor of the minimum node
-            alt = distances[min_node] + distance # calculate the alternative distance
-            if alt < distances[neighbor]: # if the alternative distance is less than the current distance
-                distances[neighbor] = alt # set the alternative distance
-                previous[neighbor] = min_node # set the previous node
+        for neighbor, distance in graph[min_node].items(): # for each neighbor of the minimum node (O(n))
+            alt = distances[min_node] + distance # calculate the alternative distance (O(1))
+            if alt < distances[neighbor]: # if the alternative distance is less than the current distance (O(1))
+                distances[neighbor] = alt # set the alternative distance as the current distance (O(1))
+                previous[neighbor] = min_node # set the previous node as the minimum node (O(1))
+    #compleksity: O(n) + O(n^2) + O(n) = O(n^2)
+
 
     # build the path
     current_node = end # set the current node to the end node
-    while current_node != start: # while the current node is not the start node
+    while current_node != start: # while the current node is not the start node (O(n))
         try: # try to get the previous node
-            path.insert(0, current_node) # insert the current node into the path
+            path.insert(0, current_node) # insert the current node into the path (O(1))
             current_node = previous[current_node] # set the current node to the previous node
         except KeyError: # if there is no previous node
-            print('Path not found') # there is no path
+            print('Path not found') # there is no path to the end node from the start node (O(1))
             sys.exit() # exit the program
     path.insert(0, start) # insert the start node into the path
-    if distances[end] != math.inf: # if the end node has a distance
-        print(f'steps: {len(path) - 1}, distance: {distances[end]}') # print the number of stops and the distance
+    if distances[end] != math.inf: # if the end node has a distance (O(1))
+        print(f'steps: {len(path) - 1}, distance: {distances[end]}') # print the number of stops and the distance (O(1))
         print(' '.join(path)) # print the path
     else: # if the end node has no distance
         print('Path not found') # there is no path
+    #compleksity: O(n) + O(1) + O(1) + O(1) + O(1) = O(n)
 
 try:
     start = str(input('Enter the start node: '))
     end = str(input('Enter the end node: '))
     time_start = time.time()
-    dijkstra(graph, start, end)
+    dijkstra(graph, start, end) #compleksity: O(n) + O(n^2) + O(n) = O(n^2)
     time_end = time.time()
     print(f'Time: {time_end - time_start}')
 except KeyError:
