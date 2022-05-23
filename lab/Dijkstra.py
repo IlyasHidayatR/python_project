@@ -3,23 +3,35 @@ import sys
 import math
 import time
 
-# graph = {
-#     'A': {'B': 2, 'C': 18, 'D': 8},
-#     'B': {'A': 2, 'E': 4},
-#     'C': {'A': 18, 'E': 10, 'F': 12},
-#     'D': {'A': 8, 'F': 5, 'G': 13},
-#     'E': {'B': 4, 'C': 10, 'H': 11},
-#     'F': {'C': 12, 'D': 5, 'H': 7, 'J': 6},
-#     'G': {'D': 13, 'J': 14},
-#     'H': {'E': 11, 'F': 7, 'I': 9},
-#     'I': {'H': 9, 'J': 17},
-#     'J': {'F': 6, 'G': 14, 'I': 17}
-# }
-graph = {}
-sum_vertex = int(input('Enter the number of vertex: '))
-for i in range (sum_vertex):
-    vertex = input('Enter the vertex: ') # input the vertex
-    graph[vertex] = {input('Enter the neighbor: '): int(input('Enter the distance: ')) for i in range(int(input('Enter the number of neighbors: ')))} # add the vertex and the neighbors to the graph
+graph = {
+    'A': {'B': 2, 'C': 18, 'D': 8},
+    'B': {'A': 2, 'E': 4},
+    'C': {'A': 18, 'E': 10, 'F': 12},
+    'D': {'A': 8, 'F': 5, 'G': 13},
+    'E': {'B': 4, 'C': 10, 'H': 11},
+    'F': {'C': 12, 'D': 5, 'H': 7, 'J': 6},
+    'G': {'D': 13, 'J': 14},
+    'H': {'E': 11, 'F': 7, 'I': 9},
+    'I': {'H': 9, 'J': 17},
+    'J': {'F': 6, 'G': 14, 'I': 17}
+}
+graph_1 = {
+    'A': {'B': 6, 'C': 4, 'D': 7},
+    'B': {'A': 6, 'E': 9},
+    'C': {'A': 4, 'E': 12, 'F': 8},
+    'D': {'A': 7, 'F':11, 'G': 14},
+    'E': {'B': 9, 'C': 12, 'H': 16},
+    'F': {'C': 8, 'D': 11, 'H': 3, 'J': 17},
+    'G': {'D': 14, 'J': 5},
+    'H': {'E': 16, 'F': 3, 'I': 2},
+    'I': {'H': 2, 'J': 13},
+    'J': {'F': 17, 'G': 5, 'I': 13}
+}
+# graph = {}
+# sum_vertex = int(input('Enter the number of vertex: '))
+# for i in range (sum_vertex):
+#     vertex = input('Enter the vertex: ') # input the vertex
+#     graph[vertex] = {input('Enter the neighbor: '): int(input('Enter the distance: ')) for i in range(int(input('Enter the number of neighbors: ')))} # add the vertex and the neighbors to the graph
 
 
 def dijkstra(graph, start, end):
@@ -79,11 +91,20 @@ def dijkstra(graph, start, end):
     #compleksity: O(n) + O(1) + O(1) + O(1) + O(1) = O(n)
 
 try:
+    print('Graph Pertama:')
     start = str(input('Enter the start node: '))
     end = str(input('Enter the end node: '))
     time_start = time.time()
     dijkstra(graph, start, end) #compleksity: O(n) + O(n^2) + O(n) = O(n^2)
     time_end = time.time()
     print(f'Time: {time_end - time_start}')
+    print('\n')
+    print('Graph Kedua:')
+    start_1 = str(input('Enter the start node: '))
+    end_1 = str(input('Enter the end node: '))
+    time_start_1 = time.time()
+    dijkstra(graph_1, start_1, end_1) #compleksity: O(n) + O(n^2) + O(n) = O(n^2)
+    time_end_1 = time.time()
+    print(f'Time: {time_end_1 - time_start_1}')
 except KeyError:
     print('The node does not exist')
