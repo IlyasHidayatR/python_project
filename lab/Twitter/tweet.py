@@ -3,7 +3,7 @@ import pandas as pd
 import re
 from textblob import TextBlob
 
-query = "(@jokowi) && (minyak goreng) until:2022-05-23 since:2022-01-01"
+query = "(@jokowi) && (ekspor minyak goreng) until:2022-05-23 since:2022-01-01"
 tweets = []
 limits = 100
 
