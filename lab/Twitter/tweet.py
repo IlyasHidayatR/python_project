@@ -3,7 +3,7 @@ import pandas as pd
 import re
 from textblob import TextBlob
 
-query = "(#masker) && (#jokowi) until:2022-01-01 since:2020-01-01"
+query = "(@jokowi) && (minyak goreng) until:2022-05-23 since:2022-01-01"
 tweets = []
 limits = 100
 
@@ -32,6 +32,9 @@ for tweet in sntwitter.TwitterSearchScraper(query).get_items():
 
 df = pd.DataFrame(tweets, columns=['Date', 'User', 'Tweet', 'Polarity', 'Sentiment'])
 print(df)
+
+#export to csv
+df.to_csv('lab/Twitter/tweet.csv', index=False, encoding='utf-8')
 
 if tweet.retweetCount > 0:
   if tweet_properties not in tweets:
