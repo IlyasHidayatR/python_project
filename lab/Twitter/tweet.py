@@ -2,6 +2,7 @@ import snscrape.modules.twitter as sntwitter
 import pandas as pd
 import re
 from textblob import TextBlob
+import matplotlib.pyplot as plt
 
 query = "(@jokowi) && (ekspor minyak goreng) until:2022-05-23 since:2022-01-01"
 tweets = []
@@ -50,3 +51,16 @@ print("Sentiment Analysis: ")
 print("Positive: ", len(text_pos), "({} %)".format(round(len(text_pos)/len(df['Tweet'])*100, 2)))
 print("Negative: ", len(text_neg), "({} %)".format(round(len(text_neg)/len(df['Tweet'])*100, 2)))
 print("Neutral: ", len(text_neu), "({} %)".format(round(len(text_neu)/len(df['Tweet'])*100, 2)))
+
+#grafiks sentiment analysis
+labels = 'Positive', 'Negative', 'Neutral'
+sizes = [len(text_pos), len(text_neg), len(text_neu)]
+colors = ['green', 'red', 'gold']
+
+
+plt.pie(sizes, labels=labels, colors=colors,
+        autopct='%1.1f%%', shadow=True, startangle=140)
+
+plt.title('Sentiment Analysis Tweet tentang Ekspor Minyak Goreng')
+plt.axis('equal')
+plt.show()
