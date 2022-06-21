@@ -35,11 +35,16 @@ def scrap(url):
   for p in soup.find_all('p'):
     body += p.text
 
-    return {"id": url, "title_txt_id": title, "body_txt_id":body}
+  if body == "" :
+        body = " "
+        for p in soup.find_all('p') : 
+            body += p.text
+
+  return {"id": url, "title_txt_id": title, "body_txt_id":body}
 
 data = []
 for i in range(1, 100):
-  data.append(scrap("https://indeks.kompas.com/?site=hype&page=" + str(i)))
+  data.append("https://indeks.kompas.com/?site=hype&page=" + str(i))
   print(data)
 
 solr = pysolr.Solr("http://192.168.99.100:8983/solr/tugas/")
