@@ -5,7 +5,7 @@ class Buaya:
     }
 
     # Dictionary of names of buaya
-    buaya = {
+    jenis_buaya = {
         'B01' : 'Buaya kerdil, Osteolaemus tetraspis',
         'B02' : 'Crocodylus acutus, buaya Amerika',
         'B03' : 'Crocodylus acutus, buaya Amerika',
@@ -60,8 +60,8 @@ class Buaya:
         self.ciri_ciri = ciri_ciri
 
     # Fungsi masukkan nama buaya
-    def masukkan_nama(self, nama):
-        self.nama = nama
+    def masukkan_nama(self, jenis_buaya):
+        self.jenis_buaya = jenis_buaya
 
     # Fungsi rule buaya dari family, genus, species, ciri-ciri
     def rule(self):
@@ -77,28 +77,34 @@ class Buaya:
     
     # Fungsi rule buaya dari nama buaya
     def rule_nama(self):
-        # jika buaya kode B01 maka L01, F01, S03, C04
-        if self.rule() == 'B01':
-            return 'F01, L01, S03, C04'
+        # jika buaya kode B01 maka nilai family=L01, genus=F01, species=S03, dan ciri-ciri=C04
+        if self.jenis_buaya == 'B01':
+            # masukan family, genus, species, dan ciri-ciri buaya dalam array
+            self.family = 'L01'
+            self.genus = 'F01'
+            self.species = 'S03'
+            self.ciri_ciri = 'C04'
+            return self.family, self.genus, self.species, self.ciri_ciri
 
-                        
-                        
+
 
 
     # print rule buaya
     def print_rule(self):
         # nama buaya
-        print('Nama buaya: ' + self.buaya[self.rule()])
+        print('Nama buaya: ' + self.jenis_buaya[self.rule()])
     
     # print rule buaya dari nama buaya
     def print_rule_nama(self):
-        # nama buaya
-        print('Nama buaya: ' + self.buaya[self.rule_nama()])
-        # print species, genus, family, ciri-ciri
-        print('Genus: ' + self.genus[self.genus[self.rule_nama()]])
-        print('Family: ' + self.family[self.family[self.rule_nama()]])
-        print('Species: ' + self.species[self.species[self.rule_nama()]])
-        print('Ciri-ciri: ' + self.ciri_ciri[self.ciri_ciri[self.rule_nama()]])
+        # print species, genus, family, ciri-ciri buaya dari nama buaya
+        print('Family: ' + self.family[self.rule_nama()])
+        print('Genus: ' + self.genus[self.rule_nama()])
+        print('Species: ' + self.species[self.rule_nama()])
+        print('Ciri-ciri: ' + self.ciri_ciri[self.rule_nama()])
+
+
+# Inisialisasi buaya
+buaya = Buaya()
 
     
 # Main program
@@ -111,10 +117,9 @@ if __name__ == '__main__':
     # Pilih jenis masukkan
     if pilih == '1':
         # Masukkan nama buaya
-        nama = input('Masukkan nama buaya: ')
+        jenis_buaya = input('Masukkan nama buaya: ')
         # Masukkan nama buaya ke class buaya
-        buaya = Buaya()
-        buaya.masukkan_nama(nama)
+        buaya.masukkan_nama(jenis_buaya)
         # Masukkan nama buaya ke class buaya
         buaya.print_rule_nama()
     elif pilih == '2':
@@ -124,10 +129,11 @@ if __name__ == '__main__':
         species = input('Masukkan species: ')
         ciri_ciri = input('Masukkan ciri-ciri: ')
         # Masukkan genus, family, species, ciri-ciri ke class buaya
-        buaya = Buaya()
         buaya.masukkan(genus, family, species, ciri_ciri)
         # Masukkan genus, family, species, ciri-ciri ke class buaya
         buaya.print_rule()
+    else:
+        print('Pilihan tidak ada')
 
 
         
