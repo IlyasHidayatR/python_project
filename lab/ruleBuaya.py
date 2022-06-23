@@ -207,7 +207,8 @@ class Buaya:
                 return 'B06'
             if 'C01' in self.ciri_ciri and 'C05' in self.ciri_ciri and 'C11' in self.ciri_ciri:
                 return 'B07'
-          elif self.species == 'G09':
+        if self.genus == 'F03':
+          if self.species == 'G09':
             if 'C03' in self.ciri_ciri and 'C06' in self.ciri_ciri and 'C12' in self.ciri_ciri:
                 return 'B08'
             if 'C03' in self.ciri_ciri and 'C06' in self.ciri_ciri and 'C13' in self.ciri_ciri:
