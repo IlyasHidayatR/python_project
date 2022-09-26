@@ -30,6 +30,12 @@ image_viewer_column = [
  [sg.Text(size=(40, 1), key="FilepathImgInput")],
  [sg.Image(key="ImgInputViewer")],
  ]
+# Kolom Area No 3: Area viewer image input 2
+# image_viewer_column2 = [
+#  [sg.Text("Image Input 2 :")],
+#  [sg.Text(size=(40, 1), key="FilepathImgInput2")],
+#  [sg.Image(key="ImgInputViewer2")],
+# ]
 # Kolom Area No 3: Area Image info dan Tombol list of processing
 list_processing = [
  [
@@ -50,6 +56,22 @@ list_processing = [
  [
  sg.Button("Image Rotate", size=(20, 1), key="ImgRotate"),
  ],
+ [
+ #mengatur kecerahan
+ sg.Button("Image Brightness", size=(20, 1), key="ImgBrightness"),
+ ],
+ [
+ #mengatur blend
+ sg.Button("Image Blend", size=(20, 1), key="ImgBlend"),
+ ],
+ [
+ #mengatur power law
+ sg.Button("Image Power Law", size=(20, 1), key="ImgPowerLaw"),
+ ],
+ [
+ #mengatur logaritma
+ sg.Button("Image Logaritma", size=(20, 1), key="ImgLogaritma"),
+ ]
 ]
 # Kolom Area No 4: Area viewer image output
 image_viewer_column2 = [
@@ -131,5 +153,50 @@ while True:
         window["ImgOutputViewer"].update(filename=filename_out)
     except:
         pass
+
+ elif event == "ImgBrightness":
+
+     try:
+         window["ImgProcessingType"].update("Image Brightness")
+         img_output=ImgBrightness(img_input,coldepth,50)
+         img_output.save(filename_out)
+         window["ImgOutputViewer"].update(filename=filename_out)
+     except:
+         pass
+ 
+ elif event == "ImgBlend":
+    
+     #event blending 2 gambar
+     try:
+         window["ImgProcessingType"].update("Image Blend")
+         filename2 = os.path.join(values["ImgFolder"], values["ImgList"][1])
+         window["FilepathImgInput2"].update(filename2)
+         window["ImgInputViewer2"].update(filename=filename2)
+         img_input2 = Image.open(filename2)
+         img_output=ImgBlend(img_input,img_input2,coldepth,0.5)
+         img_output.save(filename_out)
+         window["ImgOutputViewer"].update(filename=filename_out)
+     except:
+         pass
+
+ elif event == "ImgPowerLaw":
+        
+     try:
+         window["ImgProcessingType"].update("Image Power Law")
+         img_output=ImgPowerLaw(img_input,coldepth,2)
+         img_output.save(filename_out)
+         window["ImgOutputViewer"].update(filename=filename_out)
+     except:
+         pass
+
+ elif event == "ImgLogaritma":
+            
+     try:
+         window["ImgProcessingType"].update("Image Logaritma")
+         img_output=ImgLogTransform(img_input,coldepth,50)
+         img_output.save(filename_out)
+         window["ImgOutputViewer"].update(filename=filename_out)
+     except:
+         pass
 
 window.close()  
