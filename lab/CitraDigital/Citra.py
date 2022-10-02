@@ -23,6 +23,21 @@ file_list_column = [
  values=[], enable_events=True, size=(18, 10), key="ImgList"
  )
  ],
+ [
+ sg.Text("Open Image Folder 2:"),
+ ],
+ [
+ sg.In(size=(20, 1), enable_events=True, key="ImgFolder1"),
+ sg.FolderBrowse(),
+ ],
+ [
+ sg.Text("Choose an image from list :"),
+ ],
+ [
+ sg.Listbox(
+ values=[], enable_events=True, size=(18, 10), key="ImgList1"
+ )
+ ],
 ]
 # Kolom Area No 2: Area viewer image input
 image_viewer_column = [
@@ -71,6 +86,10 @@ list_processing = [
  [
  #mengatur logaritma
  sg.Button("Image Logaritma", size=(20, 1), key="ImgLogaritma"),
+ ],
+ [
+ #mengatur transhold
+    sg.Button("Image Transhold", size=(20, 1), key="ImgTranshold"),
  ]
 ]
 # Kolom Area No 4: Area viewer image output
@@ -109,10 +128,24 @@ while True:
     f
     for f in file_list
     if os.path.isfile(os.path.join(folder, f))
-    and f.lower().endswith((".png", ".gif"))
+    and f.lower().endswith((".png", ".gif", ".jpg"))
     ]
     window["ImgList"].update(fnames)
-
+ 
+ elif event == "ImgFolder1":
+    folder = values["ImgFolder1"]
+    try:
+    # Get list of files in folder
+        file_list = os.listdir(folder)
+    except:
+        file_list = []
+    fnames = [
+    f
+    for f in file_list
+    if os.path.isfile(os.path.join(folder, f))
+    and f.lower().endswith((".png", ".gif", ".jpg"))
+    ]
+    window["ImgList1"].update(fnames) 
  elif event == "ImgList": # A file was chosen from the listbox
     try:
         filename = os.path.join(values["ImgFolder"], values["ImgList"][0])
@@ -134,7 +167,13 @@ while True:
         window["ImgColorDepth"].update("Color Depth : "+str(coldepth))
     except:
         pass
-
+ elif event == "ImgList1": # A file was chosen from the listbox
+    try:
+        filename = os.path.join(values["ImgFolder1"], values["ImgList1"][0])
+        img_input1 = Image.open(filename)
+        #img_input.show()
+    except:
+        pass
  elif event == "ImgNegative":
 
     try:
@@ -169,11 +208,8 @@ while True:
      #event blending 2 gambar
      try:
          window["ImgProcessingType"].update("Image Blend")
-         filename2 = os.path.join(values["ImgFolder"], values["ImgList"][1])
-         window["FilepathImgInput2"].update(filename2)
-         window["ImgInputViewer2"].update(filename=filename2)
-         img_input2 = Image.open(filename2)
-         img_output=ImgBlend(img_input,img_input2,coldepth,0.5)
+         #ambil gambar input 2
+         img_output=ImgBlend(img_input,img_input1,coldepth)
          img_output.save(filename_out)
          window["ImgOutputViewer"].update(filename=filename_out)
      except:
@@ -194,6 +230,16 @@ while True:
      try:
          window["ImgProcessingType"].update("Image Logaritma")
          img_output=ImgLogTransform(img_input,coldepth,50)
+         img_output.save(filename_out)
+         window["ImgOutputViewer"].update(filename=filename_out)
+     except:
+         pass
+ 
+ elif event == "ImgTranshold":
+                
+     try:
+         window["ImgProcessingType"].update("Image Transhold")
+         img_output=ImgThreshold(img_input,coldepth,50)
          img_output.save(filename_out)
          window["ImgOutputViewer"].update(filename=filename_out)
      except:
