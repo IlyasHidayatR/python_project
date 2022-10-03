@@ -4,7 +4,7 @@ from PIL import Image, ImageOps
 from processing_list import *
 
 #nama image file temporary setiap kali processing output
-filename_out = "out.png"
+filename_out = "lab\CitraDigital\output.png"
 
 # Kolom Area No 1: Area open folder and select image
 file_list_column = [
@@ -239,7 +239,7 @@ while True:
                 
      try:
          window["ImgProcessingType"].update("Image Transhold")
-         img_output=ImgThreshold(img_input,coldepth,50)
+         img_output=ImgThreshold(img_input,coldepth,127)
          img_output.save(filename_out)
          window["ImgOutputViewer"].update(filename=filename_out)
      except:
