@@ -75,6 +75,9 @@ list_processing = [
  #mengatur kecerahan
  sg.Button("Image Brightness", size=(20, 1), key="ImgBrightness"),
  ],
+#  [
+#  sg.Slider(range=(0, 255), default_value=0, orientation="h", size=(20, 15), key="Brightness"),
+#  ],
  [
  #mengatur blend
  sg.Button("Image Blend", size=(20, 1), key="ImgBlend"),
@@ -89,7 +92,15 @@ list_processing = [
  ],
  [
  #mengatur transhold
-    sg.Button("Image Transhold", size=(20, 1), key="ImgTranshold"),
+ sg.Button("Image Transhold", size=(20, 1), key="ImgTranshold"),
+ ],
+ [
+ #mengatur translasi
+ sg.Button("Image Translasi", size=(20, 1), key="ImgTranslasi"),
+ ],
+ [
+ #mngatur flipping gambar
+ sg.Button("Image Flipping", size=(20, 1), key="ImgFlipping"),
  ]
 ]
 # Kolom Area No 4: Area viewer image output
@@ -197,6 +208,7 @@ while True:
 
      try:
          window["ImgProcessingType"].update("Image Brightness")
+        #  img_output=ImgBrightness(img_input,coldepth,values["Brightness"])
          img_output=ImgBrightness(img_input,coldepth,50)
          img_output.save(filename_out)
          window["ImgOutputViewer"].update(filename=filename_out)
@@ -240,6 +252,25 @@ while True:
      try:
          window["ImgProcessingType"].update("Image Transhold")
          img_output=ImgThreshold(img_input,coldepth,127)
+         img_output.save(filename_out)
+         window["ImgOutputViewer"].update(filename=filename_out)
+     except:
+         pass
+
+ elif event == "ImgTranslasi":
+    
+     try:
+         window["ImgProcessingType"].update("Image Translasi")
+         img_output=ImgTranslation(img_input,coldepth,50,50)
+         img_output.save(filename_out)
+         window["ImgOutputViewer"].update(filename=filename_out)
+     except:
+         pass
+ elif event == "ImgFlipping":
+       
+     try:
+         window["ImgProcessingType"].update("Image Flipping")
+         img_output=ImgFlipping(img_input,coldepth,'V')
          img_output.save(filename_out)
          window["ImgOutputViewer"].update(filename=filename_out)
      except:
