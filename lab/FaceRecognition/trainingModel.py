@@ -16,25 +16,25 @@ detector = cv2.CascadeClassifier("lab/FaceRecognition/haarcascade_frontalface_de
 # function to get the images and label data
 def getImagesAndLabels(path):
     width_d, height_d = 280, 280
-    imagePaths = [os.path.join(path,f) for f in os.listdir(path)]
+    imagePaths = [os.path.join(path,f) for f in os.listdir(path)] # get the path of all the images in the folder (dataset)
     faceSamples=[]
     ids = []
     for imagePath in imagePaths:
         PIL_img = Image.open(imagePath).convert('L') # convert it to grayscale
-        img_numpy = np.array(PIL_img,'uint8')
-        id = int(os.path.split(imagePath)[-1].split(".")[1])
-        faces = detector.detectMultiScale(img_numpy)
+        img_numpy = np.array(PIL_img,'uint8') # convert PIL image to numpy array
+        id = int(os.path.split(imagePath)[-1].split(".")[1]) # get the image id
+        faces = detector.detectMultiScale(img_numpy) # get the face from the training images
         for (x,y,w,h) in faces:
-            faceSamples.append(cv2.resize(img_numpy[y:y+h,x:x+w], (width_d, height_d)))
-            ids.append(id)
-    return faceSamples,ids
+            faceSamples.append(cv2.resize(img_numpy[y:y+h,x:x+w], (width_d, height_d))) # add the image to face samples list
+            ids.append(id) # add the id to ids list
+    return faceSamples,ids # return the face samples list and ids list
 
 print ("\n [INFO] Training faces. It will take a few seconds. Wait ...")
-faces,ids = getImagesAndLabels('lab/FaceRecognition/dataset')
-recognizer.train(faces, np.array(ids))
+faces,ids = getImagesAndLabels('lab/FaceRecognition/dataset') # get the faces and ids list
+recognizer.train(faces, np.array(ids)) # train the model using the faces and ids list
 
 # Save the model into trainer/trainer.yml
 recognizer.write('lab/FaceRecognition/dataset/trainer.yml') # recognizer.save() worked on Mac, but not on Pi
 
 # Print the numer of faces trained and end program
-print("\n [INFO] {0} faces trained. Exiting Program".format(len(np.unique(ids))))
+print("\n [INFO] {0} faces trained. Exiting Program".format(len(np.unique(ids)))) # print the numer of faces trained and end program
