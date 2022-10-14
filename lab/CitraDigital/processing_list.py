@@ -37,9 +37,9 @@ def ImgRotate(img_input,coldepth,deg,direction):
  for i in range(img_output.size[0]):
     for j in range(img_output.size[1]):
         if direction=="C":
-            r, g, b = img_input.getpixel((j,img_output.size[0]-i-1))
+            r, g, b = img_input.getpixel((j,img_output.size[0]-i-1)) #clockwise rotation (kiri ke kanan)
         else:
-            r, g, b = img_input.getpixel((img_input.size[1]-j-1,i))
+            r, g, b = img_input.getpixel((img_input.size[1]-j-1,i)) #counter clockwise rotation (kanan ke kiri)
         pixels[i,j] = (r, g, b)
 
  if coldepth==1:

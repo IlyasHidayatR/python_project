@@ -1,3 +1,4 @@
+from math import gamma
 import PySimpleGUI as sg
 import os.path
 from PIL import Image, ImageOps
@@ -45,13 +46,7 @@ image_viewer_column = [
  [sg.Text(size=(40, 1), key="FilepathImgInput")],
  [sg.Image(key="ImgInputViewer")],
  ]
-# Kolom Area No 3: Area viewer image input 2
-# image_viewer_column2 = [
-#  [sg.Text("Image Input 2 :")],
-#  [sg.Text(size=(40, 1), key="FilepathImgInput2")],
-#  [sg.Image(key="ImgInputViewer2")],
-# ]
-# Kolom Area No 3: Area Image info dan Tombol list of processing
+# Kolom Area No 3: Area viewer image output
 list_processing = [
  [
  sg.Text("Image Information:"),
@@ -69,34 +64,75 @@ list_processing = [
  sg.Button("Image Negative", size=(20, 1), key="ImgNegative"),
  ],
  [
+ #inputan derajat rotasi
+ sg.Text("Degree of Rotation:"),
+ sg.InputText(size=(5, 1), key="DegRotation"),
+ ],
+ [
  sg.Button("Image Rotate", size=(20, 1), key="ImgRotate"),
+ ],
+ [
+ #input kecerahan gambar
+ sg.Text("Brightness Image:"),
+ sg.InputText(size=(5, 1), key="Brightness"),
  ],
  [
  #mengatur kecerahan
  sg.Button("Image Brightness", size=(20, 1), key="ImgBrightness"),
  ],
-#  [
-#  sg.Slider(range=(0, 255), default_value=0, orientation="h", size=(20, 15), key="Brightness"),
-#  ],
+ [
+ #mengatur blend gambar dengan nilai slider
+ sg.Text("Blend Image:"),
+ ],
+ [
+ sg.Slider(range=(0, 100), default_value=50, orientation='h', size=(20, 15), key="Blend"),
+ ],
  [
  #mengatur blend
  sg.Button("Image Blend", size=(20, 1), key="ImgBlend"),
+ ],
+ [
+ #mengatur power law dengan input nilai gamma
+ sg.Text("Gamma Value:"),
+ sg.InputText(size=(5, 1), key="Gamma"),
  ],
  [
  #mengatur power law
  sg.Button("Image Power Law", size=(20, 1), key="ImgPowerLaw"),
  ],
  [
+ #input mengatur kecerahan log transform
+ sg.Text("Log Transform:"),
+ sg.InputText(size=(5, 1), key="BrightnessLog"),
+ ],
+ [
  #mengatur logaritma
  sg.Button("Image Logaritma", size=(20, 1), key="ImgLogaritma"),
+ ],
+ [
+ #input mengatur transhold
+ sg.Text("Transhold Value:"),
+ sg.InputText(size=(5, 1), key="Transhold"),
  ],
  [
  #mengatur transhold
  sg.Button("Image Transhold", size=(20, 1), key="ImgTranshold"),
  ],
  [
+ #input x dan y translasi
+ sg.Text("X :"),
+ sg.InputText(size=(5, 1), key="XTranslasi"),
+ sg.Text("Y :"),
+ sg.InputText(size=(5, 1), key="YTranslasi"),
+ ],
+ [
  #mengatur translasi
  sg.Button("Image Translasi", size=(20, 1), key="ImgTranslasi"),
+ ],
+ [
+ #input flipping V, H, atau VH
+ sg.Text("Flip Direct (V/H/HV):"),
+ sg.InputText(size=(5, 1), key="FlipDirection"),
  ],
  [
  #mngatur flipping gambar
@@ -198,7 +234,8 @@ while True:
 
     try:
         window["ImgProcessingType"].update("Image Rotate")
-        img_output=ImgRotate(img_input,coldepth,90,"C")
+        derajat = int(values["DegRotation"])
+        img_output=ImgRotate(img_input,coldepth,derajat,"C")
         img_output.save(filename_out)
         window["ImgOutputViewer"].update(filename=filename_out)
     except:
@@ -208,8 +245,8 @@ while True:
 
      try:
          window["ImgProcessingType"].update("Image Brightness")
-        #  img_output=ImgBrightness(img_input,coldepth,values["Brightness"])
-         img_output=ImgBrightness(img_input,coldepth,50)
+         brightness = int(values["Brightness"])
+         img_output=ImgBrightness(img_input,coldepth,brightness)
          img_output.save(filename_out)
          window["ImgOutputViewer"].update(filename=filename_out)
      except:
@@ -231,7 +268,8 @@ while True:
         
      try:
          window["ImgProcessingType"].update("Image Power Law")
-         img_output=ImgPowerLaw(img_input,coldepth,2)
+         gamma = float(values["Gamma"])
+         img_output=ImgPowerLaw(img_input,coldepth,gamma)
          img_output.save(filename_out)
          window["ImgOutputViewer"].update(filename=filename_out)
      except:
@@ -241,7 +279,8 @@ while True:
             
      try:
          window["ImgProcessingType"].update("Image Logaritma")
-         img_output=ImgLogTransform(img_input,coldepth,50)
+         c = float(values["BrightnessLog"])
+         img_output=ImgLogTransform(img_input,coldepth,c)
          img_output.save(filename_out)
          window["ImgOutputViewer"].update(filename=filename_out)
      except:
@@ -251,7 +290,8 @@ while True:
                 
      try:
          window["ImgProcessingType"].update("Image Transhold")
-         img_output=ImgThreshold(img_input,coldepth,127)
+         trans_value = int(values["Transhold"])
+         img_output=ImgThreshold(img_input,coldepth,trans_value)
          img_output.save(filename_out)
          window["ImgOutputViewer"].update(filename=filename_out)
      except:
@@ -261,7 +301,9 @@ while True:
     
      try:
          window["ImgProcessingType"].update("Image Translasi")
-         img_output=ImgTranslation(img_input,coldepth,50,50)
+         x = int(values["XTranslasi"])
+         y = int(values["YTranslasi"])
+         img_output=ImgTranslation(img_input,coldepth,x,y)
          img_output.save(filename_out)
          window["ImgOutputViewer"].update(filename=filename_out)
      except:
@@ -270,7 +312,8 @@ while True:
        
      try:
          window["ImgProcessingType"].update("Image Flipping")
-         img_output=ImgFlipping(img_input,coldepth,'V')
+         jenis_flip = values["FlipDirection"]
+         img_output=ImgFlipping(img_input,coldepth,jenis_flip)
          img_output.save(filename_out)
          window["ImgOutputViewer"].update(filename=filename_out)
      except:
