@@ -81,11 +81,9 @@ list_processing = [
  sg.Button("Image Brightness", size=(20, 1), key="ImgBrightness"),
  ],
  [
- #mengatur blend gambar dengan nilai slider
+ #mengatur blend gambar dengan nilai
  sg.Text("Blend Image:"),
- ],
- [
- sg.Slider(range=(0, 100), default_value=50, orientation='h', size=(20, 15), key="Blend"),
+ sg.InputText(size=(5, 1), key="Blend"),
  ],
  [
  #mengatur blend
@@ -137,8 +135,37 @@ list_processing = [
  [
  #mngatur flipping gambar
  sg.Button("Image Flipping", size=(20, 1), key="ImgFlipping"),
+ ],
+ [
+ #input zoom in dan zoom out
+ sg.Text("Zoom In/Out (value):"),
+ sg.InputText(size=(5, 1), key="ZoomInOut"),
+ ],
+ [
+ #tombol zoom in
+ sg.Button("Image Zoom In", size=(20, 1), key="ImgZoomIn"),
+ ],
+ [
+ #tombol zoom out
+ sg.Button("Image Zoom Out", size=(20, 1), key="ImgZoomOut"),
  ]
 ]
+#list processing 1
+# list_processing1 = [
+#  [
+#  #input zoom in dan zoom out
+#  sg.Text("Zoom In/Out (1/2):"),
+#  sg.InputText(size=(5, 1), key="ZoomInOut"),
+#  ],
+#  [
+#  #tombol zoom in
+#  sg.Button("Image Zoom In", size=(20, 1), key="ImgZoomIn"),
+#  ],
+#  [
+#  #tombol zoom out
+#  sg.Button("Image Zoom Out", size=(20, 1), key="ImgZoomOut"),
+#  ]
+# ]
 # Kolom Area No 4: Area viewer image output
 image_viewer_column2 = [
  [sg.Text("Image Processing Output:")],
@@ -154,6 +181,8 @@ layout = [
  sg.VSeperator(),
  sg.Column(list_processing),
  sg.VSeperator(),
+#  sg.Column(list_processing1),
+#  sg.VSeperator(),
  sg.Column(image_viewer_column2),
  ]
 ]
@@ -308,6 +337,7 @@ while True:
          window["ImgOutputViewer"].update(filename=filename_out)
      except:
          pass
+
  elif event == "ImgFlipping":
        
      try:
@@ -318,5 +348,28 @@ while True:
          window["ImgOutputViewer"].update(filename=filename_out)
      except:
          pass
+
+ elif event == "ImgZoomOut":
+
+     try:
+         window["ImgProcessingType"].update("Image Zoom Out")
+         step = int(values["ZoomInOut"])
+         img_output=ImgZoomOut(img_input,coldepth,step)
+         img_output.save(filename_out)
+         window["ImgOutputViewer"].update(filename=filename_out)
+     except:
+         pass
+
+ elif event == "ImgZoomIn":
+        
+     try:
+         window["ImgProcessingType"].update("Image Zoom In")
+         step = int(values["ZoomInOut"])
+         img_output=ImgZoomIn(img_input,coldepth,step)
+         img_output.save(filename_out)
+         window["ImgOutputViewer"].update(filename=filename_out)
+     except:
+         pass
+    
 
 window.close()  
