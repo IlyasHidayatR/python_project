@@ -19,8 +19,8 @@ while True:
         id, conf = recognizer.predict(cv2.resize(tampil[y:y+h,x:x+w], (width_d, height_d))) # Recognize the face (calculate the distance between the face and the faces in the dataset)
         if id == 1:
             id = "Ilyas Hidayat Rusdy"
-            # print accuracy in percentage
-            conf = "{0}%".format(round(100 - conf))
+            # print confidence dalam persen
+            conf = "{0}%".format(round(conf-100))
             print(conf)
         else:
             id = "Unknown"
@@ -32,8 +32,6 @@ while True:
     #     break
     if key == ord('q'):
         break
-    # else:
-    #     print("Face not recognized")
 video.release()
 cv2.destroyAllWindows()
 

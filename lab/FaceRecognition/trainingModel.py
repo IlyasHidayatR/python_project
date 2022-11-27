@@ -30,6 +30,10 @@ def getImagesAndLabels(path):
     return faceSamples,ids # return the face samples list and ids list
 
 print ("\n [INFO] Training faces. It will take a few seconds. Wait ...")
+#delete the old model
+if os.path.exists('lab/FaceRecognition/dataset/trainer.yml'):
+    os.remove('lab/FaceRecognition/dataset/trainer.yml')
+# get the faces and ids
 faces,ids = getImagesAndLabels('lab/FaceRecognition/dataset') # get the faces and ids list
 recognizer.train(faces, np.array(ids)) # train the model using the faces and ids list
 
