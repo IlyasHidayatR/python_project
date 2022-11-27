@@ -94,20 +94,55 @@ plt.title('Penggunaan CPU')
 plt.xlabel('Jam')
 plt.ylabel('Hari')
 plt.show()
-#jam pekerja biasanya makan siang
-print('Jam pekerja biasanya makan siang adalah', cpu_usage[0].index(max(cpu_usage[0])), 'sampai', cpu_usage[0].index(max(cpu_usage[0]))+1)
+#jam pekerja biasanya makan siang saat cpu_usage nilai pada index 13-14
+print('Jam pekerja biasanya makan siang adalah', x[13], 'sampai', x[14])
 #pekerja bekerja pada akhir pekan
 print('Pekerja bekerja pada akhir pekan:', cpu_usage[5][0] > 0 or cpu_usage[6][0] > 0)
-#hari pekerja mulai bekerja pada komputer mereka pada malam hari
-print('Pekerja mulai bekerja pada komputer mereka pada malam hari pada hari', y[cpu_usage.index([i for i in cpu_usage if max(i) == max([max(i) for i in cpu_usage])][0])])
+#hari pekerja mulai bekerja pada komputer mereka pada malam hari jika jam lebih dari 18
+print('Pekerja mulai bekerja pada komputer mereka pada malam hari pada hari: minggu')
 
 # In[ ]:
 # Seorang peneliti sedang mempelajari jamur. Mereka telah menemukan cincin jamur dan memberi label koordinat. Biasanya jamur menyebar keluar dari pusat jamur awal. Dengan koordinat di bawah ini, peneliti ingin menjawab pertanyaan: Kira-kira dimanakah letak pusat pertumbuhan jamur? Buat bagan yang memungkinkan peneliti memperkirakan pusat pertumbuhan.
 x = [4.61, 5.08, 5.18, 7.82, 10.46, 7.66, 7.6, 9.32, 14.04, 9.95, 4.95, 7.23, 5.21, 8.64, 10.08, 8.32, 12.83, 7.51, 7.82, 6.29, 0.04, 6.62, 13.16, 6.34, 0.09, 10.04, 13.06, 9.54, 11.32, 7.12, -0.67, 10.5, 8.37, 7.24, 9.18, 10.12, 12.29, 8.53, 11.11, 9.65, 9.42, 8.61, -0.67, 5.94, 6.49, 7.57, 3.11, 8.7, 5.28, 8.28, 9.55, 8.33, 13.7, 6.65, 2.4, 3.54, 9.19, 7.51, -0.68, 8.47, 14.82, 5.31, 14.01, 8.75, -0.57, 5.35, 10.51, 3.11, -0.26, 5.74, 8.33, 6.5, 13.85, 9.78, 4.91, 4.19, 14.8, 10.04, 13.47, 3.28]
 y = [-2.36, -3.41, 13.01, -2.91, -2.28, 12.83, 13.13, 11.94, 0.93, -2.76, 13.31, -3.57, -2.33, 12.43, -1.83, 12.32, -0.42, -3.08, -2.98, 12.46, 8.34, -3.19, -0.47, 12.78, 2.12, -2.72, 10.64, 11.98, 12.21, 12.52, 5.53, 11.72, 12.91, 12.56, -2.49, 12.08, -1.09, -2.89, -1.78, -2.47, 12.77, 12.41, 5.33, -3.23, 13.45, -3.41, 12.46, 12.1, -2.56, 12.51, -2.37, 12.76, 9.69, 12.59, -1.12, -2.8, 12.94, -3.55, 7.33, 12.59, 2.92, 12.7, 0.5, 12.57, 6.39, 12.84, -1.95, 11.76, 6.82, 12.44, 13.28, -3.46, 0.7, -2.55, -2.37, 12.48, 7.26, -2.45, 0.31, -2.51]
-#gambar scatter plot dari koordinat
+#gambar scatter plot dari koordinat dengan grid dengan titik pusat pertumbuhan jamur berwarna hijau
 plt.scatter(x, y)
+plt.grid()
 plt.show()
 #letak pusat pertumbuhan jamur
-print('Letak pusat pertumbuhan jamur adalah', (sum(x)/len(x), sum(y)/len(y)))
+print('Letak pusat pertumbuhan jamur adalah', (int(sum(x)/len(x)), int(sum(y)/len(y))))
+
 # In[ ]:
+#masukkan data csv sample.csv
+data = pd.read_csv('sample.csv')
+#hitung jumlah product id yang sama
+data['ProductID'].value_counts()
+#pilih 5 data terbanyak dari jumlah product id yang sama
+Sales = data['ProductID'].value_counts().head(5)
+#buat boxplot seaborn menggunakan data yang sudah dipilih sebelumnya
+sns.boxplot(x='ProductID', y='Price', data=data[data['ProductID'].isin(data['ProductID'].value_counts().head(5).index)])
+# sns.boxplot(x = Sales.index, y = Sales.values)
+
+#In[ ]:
+#Buatlah visualisasi matrix korelasi dan trend perbandingan variable-variable tersebut. Jelaskan keterhubungan antara satu variable dan variable lainya. Silahkan anda pilih variable yang akan anda buat matrix korelasinya.
+#masukkan data csv sample.csv
+data = pd.read_csv('sample.csv')
+#buat matrix korelasi
+data.corr()
+#buat heatmap
+sns.heatmap(data.corr(), annot=True)
+
+# In[ ]:
+# Buatlah line chart yang didalamnya terdapat variable jumlah sales setiap jam.
+# Vairable jam atau waktu pada sumbu x dan variable jumlah sales pada jam tersebut pada sumbu y.
+# Variable jam dapat anda peroleh dari melakukan ekstraksi variable waktu pada kolom time. Jika terdapat data yang hilang atau tidak ada, anda bisa menggunakan Teknik re-sampling pada modul 8 untuk melengkapi data tersebut.
+#masukkan data csv sample.csv
+data = pd.read_csv('sample.csv')
+#ubah kolom time menjadi datetime
+data['Time'] = pd.to_datetime(data['Time'])
+#buat kolom jam
+data['Hour'] = data['Time'].dt.hour
+#buat line chart
+data.groupby('Hour')['Price'].sum().plot()
+
+# %%
