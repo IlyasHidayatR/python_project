@@ -1,4 +1,3 @@
-from math import gamma
 import PySimpleGUI as sg
 import numpy as np
 import os.path
@@ -47,7 +46,13 @@ image_viewer_column = [
  [sg.Text(size=(40, 1), key="FilepathImgInput")],
  [sg.Image(key="ImgInputViewer")],
  ]
-# Kolom Area No 3: Area viewer image output
+# Kolom Area No 3: Area viewer image input 2
+# image_viewer_column2 = [
+#  [sg.Text("Image Input 2 :")],
+#  [sg.Text(size=(40, 1), key="FilepathImgInput2")],
+#  [sg.Image(key="ImgInputViewer2")],
+# ]
+# Kolom Area No 3: Area Image info dan Tombol list of processing
 list_processing = [
  [
  sg.Text("Image Information:"),
@@ -220,54 +225,40 @@ list_processing = [
  sg.Button("Weight Average Filter 2", size=(20, 1), key="ImgConvesinalLinearFilter1"),
  ],
  [
- #Gradient Filter
- sg.Button("Gradient Filter", size=(20, 1), key="ImgGradientFilter"),
+ sg.Button("Image Rotate", size=(20, 1), key="ImgRotate"),
  ],
  [
- #Gradient Dif Center Filter
- sg.Button("Gradient Dif Center Filter", size=(20, 1), key="ImgGradientDifCenterFilter"),
+ #mengatur kecerahan
+ sg.Button("Image Brightness", size=(20, 1), key="ImgBrightness"),
  ],
+#  [
+#  sg.Slider(range=(0, 255), default_value=0, orientation="h", size=(20, 15), key="Brightness"),
+#  ],
  [
  #Sharpening Filter
  sg.Button("Sharpening Filter", size=(20, 1), key="ImgSharpenFilter"),
  ],
  [
- #Sobel Filter
- sg.Button("Sobel Filter", size=(20, 1), key="ImgSobelFilter"),
+ #mengatur power law
+ sg.Button("Image Power Law", size=(20, 1), key="ImgPowerLaw"),
  ],
  [
- #Prewitt Filter
- sg.Button("Prewitt Filter", size=(20, 1), key="ImgPrewittFilter"),
+ #mengatur logaritma
+ sg.Button("Image Logaritma", size=(20, 1), key="ImgLogaritma"),
  ],
  [
- #Laplacian Filter
- sg.Button("Laplacian Filter", size=(20, 1), key="ImgLaplacianFilter"),
+ #mengatur transhold
+ sg.Button("Image Transhold", size=(20, 1), key="ImgTranshold"),
  ],
  [
- #Roberts Filter
- sg.Button("Roberts Filter", size=(20, 1), key="ImgRobertsFilter"),
+ #mengatur translasi
+ sg.Button("Image Translasi", size=(20, 1), key="ImgTranslasi"),
  ],
  [
- #Compass Filter
- sg.Button("Compass Filter", size=(20, 1), key="ImgCompassFilter"),
+ #mngatur flipping gambar
+ sg.Button("Image Flipping", size=(20, 1), key="ImgFlipping"),
  ]
 ]
-#list processing 1
-# list_processing1 = [
-#  [
-#  #input zoom in dan zoom out
-#  sg.Text("Zoom In/Out (1/2):"),
-#  sg.InputText(size=(5, 1), key="ZoomInOut"),
-#  ],
-#  [
-#  #tombol zoom in
-#  sg.Button("Image Zoom In", size=(20, 1), key="ImgZoomIn"),
-#  ],
-#  [
-#  #tombol zoom out
-#  sg.Button("Image Zoom Out", size=(20, 1), key="ImgZoomOut"),
-#  ]
-# ]
 # Kolom Area No 4: Area viewer image output
 image_viewer_column2 = [
  [sg.Text("Image Processing Output:")],
@@ -283,8 +274,6 @@ layout = [
  sg.VSeperator(),
  sg.Column(list_processing),
  sg.VSeperator(),
-#  sg.Column(list_processing1),
-#  sg.VSeperator(),
  sg.Column(image_viewer_column2),
  ]
 ]
@@ -365,8 +354,7 @@ while True:
 
     try:
         window["ImgProcessingType"].update("Image Rotate")
-        derajat = int(values["DegRotation"])
-        img_output=ImgRotate(img_input,coldepth,derajat,"C")
+        img_output=ImgRotate(img_input,coldepth,90,"C")
         img_output.save(filename_out)
         window["ImgOutputViewer"].update(filename=filename_out)
     except:
@@ -376,8 +364,8 @@ while True:
 
      try:
          window["ImgProcessingType"].update("Image Brightness")
-         brightness = int(values["Brightness"])
-         img_output=ImgBrightness(img_input,coldepth,brightness)
+        #  img_output=ImgBrightness(img_input,coldepth,values["Brightness"])
+         img_output=ImgBrightness(img_input,coldepth,50)
          img_output.save(filename_out)
          window["ImgOutputViewer"].update(filename=filename_out)
      except:
@@ -399,8 +387,7 @@ while True:
         
      try:
          window["ImgProcessingType"].update("Image Power Law")
-         gamma = float(values["Gamma"])
-         img_output=ImgPowerLaw(img_input,coldepth,gamma)
+         img_output=ImgPowerLaw(img_input,coldepth,2)
          img_output.save(filename_out)
          window["ImgOutputViewer"].update(filename=filename_out)
      except:
@@ -410,8 +397,7 @@ while True:
             
      try:
          window["ImgProcessingType"].update("Image Logaritma")
-         c = float(values["BrightnessLog"])
-         img_output=ImgLogTransform(img_input,coldepth,c)
+         img_output=ImgLogTransform(img_input,coldepth,50)
          img_output.save(filename_out)
          window["ImgOutputViewer"].update(filename=filename_out)
      except:
@@ -421,8 +407,7 @@ while True:
                 
      try:
          window["ImgProcessingType"].update("Image Transhold")
-         trans_value = int(values["Transhold"])
-         img_output=ImgThreshold(img_input,coldepth,trans_value)
+         img_output=ImgThreshold(img_input,coldepth,127)
          img_output.save(filename_out)
          window["ImgOutputViewer"].update(filename=filename_out)
      except:
@@ -432,285 +417,19 @@ while True:
     
      try:
          window["ImgProcessingType"].update("Image Translasi")
-         x = int(values["XTranslasi"])
-         y = int(values["YTranslasi"])
-         img_output=ImgTranslation(img_input,coldepth,x,y)
+         img_output=ImgTranslation(img_input,coldepth,50,50)
          img_output.save(filename_out)
          window["ImgOutputViewer"].update(filename=filename_out)
      except:
          pass
-
  elif event == "ImgFlipping":
        
      try:
          window["ImgProcessingType"].update("Image Flipping")
-         jenis_flip = values["FlipDirection"]
-         img_output=ImgFlipping(img_input,coldepth,jenis_flip)
+         img_output=ImgFlipping(img_input,coldepth,'V')
          img_output.save(filename_out)
          window["ImgOutputViewer"].update(filename=filename_out)
      except:
          pass
 
- elif event == "ImgZoomOut":
-
-     try:
-         window["ImgProcessingType"].update("Image Zoom Out")
-         step = int(values["ZoomInOut"])
-         img_output=ImgZoomOut(img_input,coldepth,step)
-         img_output.save(filename_out)
-         window["ImgOutputViewer"].update(filename=filename_out)
-     except:
-         pass
-
- elif event == "ImgZoomIn":
-        
-     try:
-         window["ImgProcessingType"].update("Image Zoom In")
-         step = int(values["ZoomInOut"])
-         img_output=ImgZoomIn(img_input,coldepth,step)
-         img_output.save(filename_out)
-         window["ImgOutputViewer"].update(filename=filename_out)
-     except:
-         pass
-
- elif event == "ImgNegativeCircle":
-
-     try:
-         window["ImgProcessingType"].update("Image Negative Circle")
-         img_output=ImgNegativeCircle(img_input,coldepth)
-         img_output.save(filename_out)
-         window["ImgOutputViewer"].update(filename=filename_out)
-     except:
-         pass
-
- elif event == "ImgNegativeCenter":
-
-     try:
-         window["ImgProcessingType"].update("Image Negative Center")
-         img_output=ImgNegativeDiamond(img_input,coldepth)
-         img_output.save(filename_out)
-         window["ImgOutputViewer"].update(filename=filename_out)
-     except:
-         pass
- 
- elif event == "ImgFlippingAll":
-
-     try:
-         window["ImgProcessingType"].update("Image Flipping All")
-         img_output=ImgFlipAll(img_input,coldepth)
-         img_output.save(filename_out)
-         window["ImgOutputViewer"].update(filename=filename_out)
-     except:
-         pass
-
- elif event == "ImgBlend1/4":
-
-     try:
-         window["ImgProcessingType"].update("Image Blend 1/4")
-         img_output=ImgBlendQuarter(img_input,img_input1,coldepth,40)
-         img_output.save(filename_out)
-         window["ImgOutputViewer"].update(filename=filename_out)
-     except:
-         pass
-
- elif event == "ImgRotateAll":
-
-     try:
-         window["ImgProcessingType"].update("Image Rotate All")
-         img_output=ImgRotateAll(img_input,coldepth)
-         img_output.save(filename_out)
-         window["ImgOutputViewer"].update(filename=filename_out)
-     except:
-         pass
-
- elif event == "ImgBlend1/4New":
-
-     try:
-         window["ImgProcessingType"].update("Image Blend 1/4")
-         img_output=ImgBlendQuarter1(img_input,img_input1,coldepth,0)
-         img_output.save(filename_out)
-         window["ImgOutputViewer"].update(filename=filename_out)
-     except:
-         pass
-
- elif event == "ImgBlend1/4New1":
-
-     try:
-         window["ImgProcessingType"].update("Image Blend 1/4")
-         img_output=ImgBlendQuarter2(img_input,img_input1,coldepth,0)
-         img_output.save(filename_out)
-         window["ImgOutputViewer"].update(filename=filename_out)
-     except:
-         pass
-
- elif event == "ImgNegativeTriangle":
-
-        try:
-            window["ImgProcessingType"].update("Image Negative Triangle")
-            img_output=ImgNegatifTriangle(img_input,coldepth)
-            img_output.save(filename_out)
-            window["ImgOutputViewer"].update(filename=filename_out)
-        except:
-            pass
-
- elif event == "ImgNegativeCircleDiamond":
-
-     try:
-         window["ImgProcessingType"].update("Image Negative Circle Diamond")
-         img_output=ImgNegativeCircleDiamond(img_input,coldepth)
-         img_output.save(filename_out)
-         window["ImgOutputViewer"].update(filename=filename_out)
-     except:
-         pass
-
- elif event == "ImgNegativeCircleDiamondTriangle":
-
-     try:
-         window["ImgProcessingType"].update("Image Negative Circle Diamond Triangle")
-         img_output=ImgNegativeCircleDiamondTriangle(img_input,coldepth)
-         img_output.save(filename_out)
-         window["ImgOutputViewer"].update(filename=filename_out)
-     except:
-         pass
-
- elif event == "ImgMedianFilter":
-
-     try:
-         window["ImgProcessingType"].update("Image Median Filter")
-         img_output=ImgMedianFilter(img_input,coldepth)
-         img_output.save(filename_out)
-         window["ImgOutputViewer"].update(filename=filename_out)
-     except:
-         pass
-
- elif event == "ImgMeanFilter":
-
-     try:
-         window["ImgProcessingType"].update("Image Mean Filter")
-         img_output=ImgMeanFilter(img_input,coldepth)
-         img_output.save(filename_out)
-         window["ImgOutputViewer"].update(filename=filename_out)
-     except:
-         pass
-
- elif event == "ImgMaxFilter":
-
-     try:
-         window["ImgProcessingType"].update("Image Max Filter")
-         img_output=ImgMaxFilter(img_input,coldepth)
-         img_output.save(filename_out)
-         window["ImgOutputViewer"].update(filename=filename_out)
-     except:
-         pass
-
- elif event == "ImgMinFilter":
-
-     try:
-         window["ImgProcessingType"].update("Image Min Filter")
-         img_output=ImgMinFilter(img_input,coldepth)
-         img_output.save(filename_out)
-         window["ImgOutputViewer"].update(filename=filename_out)
-     except:
-         pass
-
- elif event == "ImgConvesinalLinearFilter":
-
-     try:
-         window["ImgProcessingType"].update("Image Convesinal Linear Filter")
-         img_output=ImgLinearFilter(img_input,coldepth)
-         img_output.save(filename_out)
-         window["ImgOutputViewer"].update(filename=filename_out)
-     except:
-         pass
- 
- elif event == "ImgConvesinalLinearFilter1":
-
-     try:
-         window["ImgProcessingType"].update("Image Convesinal Linear Filter")
-         img_output=ImgLinearFilter1(img_input,coldepth)
-         img_output.save(filename_out)
-         window["ImgOutputViewer"].update(filename=filename_out)
-     except:
-         pass
-
- elif event == "ImgGradientFilter":
-
-     try:
-         window["ImgProcessingType"].update("Image Gradient Filter")
-         img_output=ImgGradientEdgeDetection(img_input,coldepth)
-         img_output.save(filename_out)
-         window["ImgOutputViewer"].update(filename=filename_out)
-     except:
-         pass
-
- elif event == "ImgGradientDifCenterFilter":
-
-     try:
-         window["ImgProcessingType"].update("Image Gradient Dif Center Filter")
-         img_output=ImgGradientEdgeDetection2(img_input,coldepth)
-         img_output.save(filename_out)
-         window["ImgOutputViewer"].update(filename=filename_out)
-     except:
-         pass
-
- elif event == "ImgSharpenFilter":
-
-     try:
-         window["ImgProcessingType"].update("Image Sharpen Filter")
-         img_output=ImgSharpeningFilter(img_input,coldepth)
-         img_output.save(filename_out)
-         window["ImgOutputViewer"].update(filename=filename_out)
-     except:
-         pass
-
- elif event == "ImgSobelFilter":
-
-     try:
-         window["ImgProcessingType"].update("Image Sobel Filter")
-         img_output=ImgSobelEdgeDetection(img_input,coldepth)
-         img_output.save(filename_out)
-         window["ImgOutputViewer"].update(filename=filename_out)
-     except:
-         pass
-
- elif event == "ImgPrewittFilter":
-
-     try:
-         window["ImgProcessingType"].update("Image Prewitt Filter")
-         img_output=ImgPrewittEdgeDetection(img_input,coldepth)
-         img_output.save(filename_out)
-         window["ImgOutputViewer"].update(filename=filename_out)
-     except:
-         pass
-
- elif event == "ImgLaplacianFilter":
-
-     try:
-         window["ImgProcessingType"].update("Image Laplacian Filter")
-         img_output=ImgLaplacianEdgeDetection(img_input,coldepth)
-         img_output.save(filename_out)
-         window["ImgOutputViewer"].update(filename=filename_out)
-     except:
-         pass
-
- elif event == "ImgRobertsFilter":
-
-     try:
-         window["ImgProcessingType"].update("Image Roberts Filter")
-         img_output=ImgRobertsEdgeDetection(img_input,coldepth)
-         img_output.save(filename_out)
-         window["ImgOutputViewer"].update(filename=filename_out)
-     except:
-         pass
-
- elif event == "ImgCompassFilter":
-
-     try:
-         window["ImgProcessingType"].update("Image Compass Filter")
-         img_output=ImgCompassEdgeDetection(img_input,coldepth)
-         img_output.save(filename_out)
-         window["ImgOutputViewer"].update(filename=filename_out)
-     except:
-         pass
-
-window.close()
+window.close()  
