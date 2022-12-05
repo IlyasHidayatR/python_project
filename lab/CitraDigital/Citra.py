@@ -255,6 +255,10 @@ list_processing = [
  [
  #compass filter
  sg.Button("Compass Filter", size=(20, 1), key="ImgCompassFilter"),
+ ],
+ [
+ #canny filter
+ sg.Button("Canny Filter", size=(20, 1), key="ImgCannyFilter"),
  ]
 ]
 # Kolom Area No 4: Area viewer image output
@@ -694,6 +698,16 @@ while True:
      try:
          window["ImgProcessingType"].update("Image Compass Filter")
          img_output=ImgCompassEdgeDetection(img_input,coldepth)
+         img_output.save(filename_out)
+         window["ImgOutputViewer"].update(filename=filename_out)
+     except:
+         pass
+
+ elif event == "ImgCannyFilter":
+
+     try:
+         window["ImgProcessingType"].update("Image Canny Filter")
+         img_output=ImgCannyEdgeDetection(img_input,coldepth)
          img_output.save(filename_out)
          window["ImgOutputViewer"].update(filename=filename_out)
      except:
