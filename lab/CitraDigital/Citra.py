@@ -259,6 +259,22 @@ list_processing = [
  [
  #canny filter
  sg.Button("Canny Filter", size=(20, 1), key="ImgCannyFilter"),
+ ],
+ [
+ #noise gaussian filter
+ sg.Button("Noise Gaussian Filter", size=(20, 1), key="ImgNoiseGaussianFilter"),
+ ],
+ [
+ #salt noise filter
+ sg.Button("Salt Noise Filter", size=(20, 1), key="ImgSaltNoiseFilter"),
+ ],
+ [
+ #pepper noise filter
+ sg.Button("Pepper Noise Filter", size=(20, 1), key="ImgPepperNoiseFilter"),
+ ],
+ [
+ #gaussian filter
+ sg.Button("Gaussian Filter", size=(20, 1), key="ImgGaussianFilter"),
  ]
 ]
 # Kolom Area No 4: Area viewer image output
@@ -708,6 +724,46 @@ while True:
      try:
          window["ImgProcessingType"].update("Image Canny Filter")
          img_output=ImgCannyEdgeDetection(img_input,coldepth)
+         img_output.save(filename_out)
+         window["ImgOutputViewer"].update(filename=filename_out)
+     except:
+         pass
+
+ elif event == "ImgNoiseGaussianFilter":
+
+     try:
+         window["ImgProcessingType"].update("Image Noise Gaussian Filter")
+         img_output=ImgNoiseGaussianFilter(img_input,coldepth)
+         img_output.save(filename_out)
+         window["ImgOutputViewer"].update(filename=filename_out)
+     except:
+         pass
+
+ elif event == "ImgSaltNoiseFilter":
+
+     try:
+         window["ImgProcessingType"].update("Image Salt Noise Filter")
+         img_output=ImgSaltNoise(img_input,coldepth)
+         img_output.save(filename_out)
+         window["ImgOutputViewer"].update(filename=filename_out)
+     except:
+         pass
+
+ elif event == "ImgPepperNoiseFilter":
+
+     try:
+         window["ImgProcessingType"].update("Image Pepper Noise Filter")
+         img_output=ImgPaperNoise(img_input,coldepth)
+         img_output.save(filename_out)
+         window["ImgOutputViewer"].update(filename=filename_out)
+     except:
+         pass
+
+ elif event == "ImgGaussianFilter":
+
+     try:
+         window["ImgProcessingType"].update("Image Gaussian Filter")
+         img_output=ImgGaussianFilter(img_input,coldepth)
          img_output.save(filename_out)
          window["ImgOutputViewer"].update(filename=filename_out)
      except:

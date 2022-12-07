@@ -1,5 +1,6 @@
 from PIL import Image, ImageOps
 import math
+import random
 
 def ImgNegative(img_input,coldepth):
  #solusi 1
@@ -1618,7 +1619,189 @@ def ImgCannyEdgeDetection(img_input,coldepth):
             b_sum=255
 
          pixels[i,j] = (r_sum,g_sum,b_sum)
-   
+
+   if coldepth == 1:
+         img_output = img_output.convert("1")
+   elif coldepth == 8:
+         img_output = img_output.convert("L")
+   else:
+         img_output = img_output.convert("RGB")
+
+   return img_output
+
+
+#noise gaussian filter
+def ImgNoiseGaussianFilter(img_input,coldepth):
+   if coldepth!=24:
+      img_input = img_input.convert('RGB')
+
+   img_output = Image.new('RGB', (img_input.size[0], img_input.size[1]))
+
+   pixels = img_output.load()
+   input_pixels = img_input.load()
+
+   #make a noise with gaussian distribution
+   for i in range(img_input.size[0]):
+      for j in range(img_input.size[1]):
+        r, g, b = input_pixels[i, j]
+        r, g, b = int(r), int(g), int(b)
+        r = r + int(random.gauss(0, 50))
+        g = g + int(random.gauss(0, 50))
+        b = b + int(random.gauss(0, 50))
+        if r < 0:
+         r = 0
+        if g < 0:
+         g = 0
+        if b < 0:
+         b = 0
+        if r > 255:
+         r = 255
+        if g > 255:
+         g = 255
+        if b > 255:
+         b = 255
+        pixels[i, j] = (r, g, b)
+
+   if coldepth == 1:
+         img_output = img_output.convert("1")
+   elif coldepth == 8:
+         img_output = img_output.convert("L")
+   else:
+         img_output = img_output.convert("RGB")
+
+   return img_output
+
+
+#salt noise
+def ImgSaltNoise(img_input,coldepth):
+   if coldepth!=24:
+      img_input = img_input.convert('RGB')
+
+   img_output = Image.new('RGB', (img_input.size[0], img_input.size[1]))
+
+   pixels = img_output.load()
+   input_pixels = img_input.load()
+
+   #make a salt noise
+   for i in range(img_input.size[0]):
+      for j in range(img_input.size[1]):
+        r, g, b = input_pixels[i, j]
+        r, g, b = int(r), int(g), int(b)
+        if random.randint(0, 100) < 10:
+         r = 255
+         g = 255
+         b = 255
+        pixels[i, j] = (r, g, b)
+
+   if coldepth == 1:
+         img_output = img_output.convert("1")
+   elif coldepth == 8:
+         img_output = img_output.convert("L")
+   else:
+         img_output = img_output.convert("RGB")
+
+   return img_output
+
+
+#paper noise
+def ImgPaperNoise(img_input,coldepth):
+   if coldepth!=24:
+      img_input = img_input.convert('RGB')
+
+   img_output = Image.new('RGB', (img_input.size[0], img_input.size[1]))
+
+   pixels = img_output.load()
+   input_pixels = img_input.load()
+
+   #make a paper noise
+   for i in range(img_input.size[0]):
+      for j in range(img_input.size[1]):
+        r, g, b = input_pixels[i, j]
+        r, g, b = int(r), int(g), int(b)
+        if random.randint(0, 100) < 10:
+         r = 0
+         g = 0
+         b = 0
+        pixels[i, j] = (r, g, b)
+
+   if coldepth == 1:
+         img_output = img_output.convert("1")
+   elif coldepth == 8:
+         img_output = img_output.convert("L")
+   else:
+         img_output = img_output.convert("RGB")
+
+   return img_output
+
+
+#salt and paper noise
+def ImgSaltPaperNoise(img_input,coldepth):
+   if coldepth!=24:
+      img_input = img_input.convert('RGB')
+
+   img_output = Image.new('RGB', (img_input.size[0], img_input.size[1]))
+
+   pixels = img_output.load()
+   input_pixels = img_input.load()
+
+   #make a salt and paper noise
+   for i in range(img_input.size[0]):
+      for j in range(img_input.size[1]):
+        r, g, b = input_pixels[i, j]
+        r, g, b = int(r), int(g), int(b)
+        if random.randint(0, 100) < 10:
+         r = 255
+         g = 255
+         b = 255
+        if random.randint(0, 100) < 10:
+         r = 0
+         g = 0
+         b = 0
+        pixels[i, j] = (r, g, b)
+
+   if coldepth == 1:
+         img_output = img_output.convert("1")
+   elif coldepth == 8:
+         img_output = img_output.convert("L")
+   else:
+         img_output = img_output.convert("RGB")
+
+   return img_output
+
+#gaussian filter
+def ImgGaussianFilter(img_input,coldepth):
+   mask = [[1, 2, 1], [2, 4, 2], [1, 2, 1]]
+   if coldepth!=24:
+      img_input = img_input.convert('RGB')
+
+   img_output = Image.new('RGB', (img_input.size[0], img_input.size[1]))
+
+   pixels = img_output.load()
+   input_pixels = img_input.load()
+
+   for i in range(img_input.size[0]):
+      for j in range(img_input.size[1]):
+         pixels[i,j] = (0,0,0)
+
+   for i in range(1,img_input.size[0]-1):
+      for j in range(1,img_input.size[1]-1):
+         r_sum = 0
+         g_sum = 0
+         b_sum = 0
+         for a in range(3):
+            for b in range(3):
+               xn = i + a - 1
+               yn = j + b - 1
+               pixel = input_pixels[xn, yn]
+               r_sum += pixel[0] * mask[a][b]
+               g_sum += pixel[1] * mask[a][b]
+               b_sum += pixel[2] * mask[a][b]
+
+         r_sum = int(r_sum//16)
+         g_sum = int(g_sum//16)
+         b_sum = int(b_sum//16)
+
+         pixels[i,j] = (r_sum,g_sum,b_sum)
 
    if coldepth == 1:
          img_output = img_output.convert("1")
