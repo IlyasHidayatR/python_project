@@ -5,7 +5,7 @@ import re
 from textblob import TextBlob
 import matplotlib.pyplot as plt
 
-query = "(#RKUHP) && (RKUHP) until:2022-12-12 since:2022-01-01"
+query = "(#KUHP) && (KUHP) until:2022-12-12 since:2022-01-01"
 tweets = []
 limits = 100
 
