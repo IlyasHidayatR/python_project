@@ -2,12 +2,14 @@ import snscrape.modules.twitter as sntwitter
 import pandas as pd
 import os
 import re
+from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
+from Sastrawi.StopWordRemover.StopWordRemoverFactory import StopWordRemoverFactory
 from textblob import TextBlob
 import matplotlib.pyplot as plt
 
-query = "(#KUHP) && (KUHP) until:2022-12-12 since:2022-01-01"
+query = "(#KUHP) && (KUHP) until:2022-12-14 since:2022-11-01"
 tweets = []
-limits = 100
+limits = 200
 
 for tweet in sntwitter.TwitterSearchScraper(query).get_items():
   if len(tweets) == limits:
@@ -16,14 +18,22 @@ for tweet in sntwitter.TwitterSearchScraper(query).get_items():
     tweet_properties = {}
     tweet_properties['Date'] = tweet.date
     tweet_properties['User'] = tweet.username
-    tweet_bersih = ' '.join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)"," ", tweet.content).split())
+    #cleaning
+    tweet_bersih = ' '.join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)"," ", tweet.content).split()).lower()
     tweet_properties['Tweet'] = tweet_bersih
+    #stemming
+    factory = StemmerFactory()
+    stemmer = factory.create_stemmer()
+    tweet_bersih = stemmer.stem(tweet_bersih)
+    #stopword removal
+    factory1 = StopWordRemoverFactory()
+    stopword = factory1.create_stop_word_remover()
+    tweet_bersih = stopword.remove(tweet_bersih)
     #translate to english
     analysis = TextBlob(tweet_bersih)
     an = analysis.translate(from_lang="id", to="en")
     #get polarity
     tweet_properties['Polarity'] = an.sentiment.polarity
-
 
     #check polarity
     if tweet_properties['Polarity'] > 0.0:
@@ -44,6 +54,7 @@ if os.path.exists('lab/Twitter/tweet.csv'):
 #export to csv
 df.to_csv('lab/Twitter/tweet.csv', index=False, encoding='utf-8')
 
+#check if tweet is a retweet
 if tweet.retweetCount > 0:
   if tweet_properties not in tweets:
     tweets.append(tweet_properties)
