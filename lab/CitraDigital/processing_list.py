@@ -1811,3 +1811,94 @@ def ImgGaussianFilter(img_input,coldepth):
          img_output = img_output.convert("RGB")
 
    return img_output
+
+
+#Erosion Binary Image
+def ImgErosionBinary(img_input,coldepth):
+   SE = [[1, 1, 1], [1, 1, 1], [1, 1, 1]]
+   if coldepth!=24:
+      img_input = img_input.convert('RGB')
+
+   img_output = Image.new('RGB', (img_input.size[0], img_input.size[1]))
+
+   pixels = img_output.load()
+   input_pixels = img_input.load()
+
+   for i in range(img_input.size[0]):
+      for j in range(img_input.size[1]):
+         pixels[i,j] = (0,0,0)
+
+   for i in range(1,img_input.size[0]-1):
+      for j in range(1,img_input.size[1]-1):
+         r_sum = 0
+         g_sum = 0
+         b_sum = 0
+         for a in range(3):
+            for b in range(3):
+               xn = i + a - 1
+               yn = j + b - 1
+               pixel = input_pixels[xn, yn]
+               r_sum += pixel[0] * SE[a][b]
+               g_sum += pixel[1] * SE[a][b]
+               b_sum += pixel[2] * SE[a][b]
+
+         #minimum filter with sorted function
+         r_sum = sorted([r_sum,255])[0]
+         g_sum = sorted([g_sum,255])[0]
+         b_sum = sorted([b_sum,255])[0]
+
+         pixels[i,j] = (r_sum,g_sum,b_sum)
+
+   if coldepth == 1:
+         img_output = img_output.convert("1")
+   elif coldepth == 8:
+         img_output = img_output.convert("L")
+   else:
+         img_output = img_output.convert("RGB")
+
+   return img_output
+
+
+#Dilation Binary Image with 3x3 mask with maximum filter
+def ImgDilationBinary(img_input,coldepth):
+   if coldepth!=24:
+      img_input = img_input.convert('RGB')
+
+   img_output = Image.new('RGB', (img_input.size[0], img_input.size[1]))
+
+   pixels = img_output.load()
+   for i in range(img_output.size[0]):
+      for j in range(img_output.size[1]):
+         pixels[i,j] = (0,0,0)
+
+   input_pixels = img_input.load()
+
+   for i in range(1,img_input.size[0]-1):
+      for j in range(1,img_input.size[1]-1):
+         r_sum = 0
+         g_sum = 0
+         b_sum = 0
+         for a in range(3):
+            for b in range(3):
+               xn = i + a - 1
+               yn = j + b - 1
+               pixel = input_pixels[xn, yn]
+               r_sum += pixel[0]
+               g_sum += pixel[1]
+               b_sum += pixel[2]
+
+         r_sum = int(r_sum//9)
+         g_sum = int(g_sum//9)
+         b_sum = int(b_sum//9)
+
+         if r_sum == 255 and g_sum == 255 and b_sum == 255:
+            pixels[i,j] = (255,255,255)
+
+   if coldepth == 1:
+         img_output = img_output.convert("1")
+   elif coldepth == 8:
+         img_output = img_output.convert("L")
+   else:
+         img_output = img_output.convert("RGB")
+
+   return img_output

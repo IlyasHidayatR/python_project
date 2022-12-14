@@ -195,22 +195,22 @@ list_processing = [
 #  #ImgNegativeCircleDiamondTriangle
 #  sg.Button("Image Negative Circle & Diamond & Triangle", size=(20, 1), key="ImgNegativeCircleDiamondTriangle"),
 #  ],
- [
- #image median filter
- sg.Button("Image Median Filter", size=(20, 1), key="ImgMedianFilter"),
- ],
- [
- #image mean filter
- sg.Button("Image Mean Filter", size=(20, 1), key="ImgMeanFilter"),
- ],
- [
- #image max filter
- sg.Button("Image Max Filter", size=(20, 1), key="ImgMaxFilter"),   
- ],
- [
- #image min filter
- sg.Button("Image Min Filter", size=(20, 1), key="ImgMinFilter"),
- ],
+#  [
+#  #image median filter
+#  sg.Button("Image Median Filter", size=(20, 1), key="ImgMedianFilter"),
+#  ],
+#  [
+#  #image mean filter
+#  sg.Button("Image Mean Filter", size=(20, 1), key="ImgMeanFilter"),
+#  ],
+#  [
+#  #image max filter
+#  sg.Button("Image Max Filter", size=(20, 1), key="ImgMaxFilter"),   
+#  ],
+#  [
+#  #image min filter
+#  sg.Button("Image Min Filter", size=(20, 1), key="ImgMinFilter"),
+#  ],
  [
  #input mask value for linear filter
 #  sg.Text("Mask Value:"),
@@ -275,6 +275,10 @@ list_processing = [
  [
  #gaussian filter
  sg.Button("Gaussian Filter", size=(20, 1), key="ImgGaussianFilter"),
+ ],
+ [
+ #Erosion Binary Filter
+ sg.Button("Erosion Binary Filter", size=(20, 1), key="ImgErosionBinaryFilter"),
  ]
 ]
 # Kolom Area No 4: Area viewer image output
@@ -764,6 +768,16 @@ while True:
      try:
          window["ImgProcessingType"].update("Image Gaussian Filter")
          img_output=ImgGaussianFilter(img_input,coldepth)
+         img_output.save(filename_out)
+         window["ImgOutputViewer"].update(filename=filename_out)
+     except:
+         pass
+
+ elif event == "ImgErosionBinaryFilter":
+
+     try:
+         window["ImgProcessingType"].update("Image Erosion Binary Filter")
+         img_output=ImgErosionBinary(img_input,coldepth)
          img_output.save(filename_out)
          window["ImgOutputViewer"].update(filename=filename_out)
      except:
