@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 
 query = "(#KUHP) && (KUHP) until:2022-12-14 since:2022-11-01"
 tweets = []
-limits = 200
+limits = 500
 
 for tweet in sntwitter.TwitterSearchScraper(query).get_items():
   if len(tweets) == limits:
