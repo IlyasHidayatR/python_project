@@ -279,6 +279,10 @@ list_processing = [
  [
  #Erosion Binary Filter
  sg.Button("Erosion Binary Filter", size=(20, 1), key="ImgErosionBinaryFilter"),
+ ],
+ [
+ #Dilation Binary Filter
+ sg.Button("Dilation Binary Filter", size=(20, 1), key="ImgDilationBinaryFilter"),
  ]
 ]
 # Kolom Area No 4: Area viewer image output
@@ -778,6 +782,16 @@ while True:
      try:
          window["ImgProcessingType"].update("Image Erosion Binary Filter")
          img_output=ImgErosionBinary(img_input,coldepth)
+         img_output.save(filename_out)
+         window["ImgOutputViewer"].update(filename=filename_out)
+     except:
+         pass
+
+ elif event == "ImgDilationBinaryFilter":
+
+     try:
+         window["ImgProcessingType"].update("Image Dilation Binary Filter")
+         img_output=ImgDilationBinary(img_input,coldepth)
          img_output.save(filename_out)
          window["ImgOutputViewer"].update(filename=filename_out)
      except:
