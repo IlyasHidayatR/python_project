@@ -1,4 +1,4 @@
-from PIL import Image, ImageOps
+from PIL import Image, ImageOps, ImageChops
 import math
 import random
 
@@ -2013,31 +2013,31 @@ def ImgClosingBinary(img_input,coldepth):
    return img_output
 
 
-# #White Top Hat Binary Image
-# def ImgWhiteTopHatBinary(img_input,coldepth):
-#    img_output = ImgOpeningBinary(img_input,coldepth)
-#    img_output = ImageChops.subtract(img_input,img_output)
+#White Top Hat Binary Image
+def ImgWhiteTopHatBinary(img_input,coldepth):
+   img_output = ImgOpeningBinary(img_input,coldepth)
+   img_output = ImageChops.subtract(img_input,img_output)
 
-#    if coldepth == 1:
-#          img_output = img_output.convert("1")
-#    elif coldepth == 8:
-#          img_output = img_output.convert("L")
-#    else:
-#          img_output = img_output.convert("RGB")
+   if coldepth == 1:
+         img_output = img_output.convert("1")
+   elif coldepth == 8:
+         img_output = img_output.convert("L")
+   else:
+         img_output = img_output.convert("RGB")
 
-#    return img_output
+   return img_output
 
 
-# #Black Top Hat Binary Image
-# def ImgBlackTopHatBinary(img_input,coldepth):
-#    img_output = ImgClosingBinary(img_input,coldepth)
-#    img_output = ImageChops.subtract(img_output,img_input)
+#Black Top Hat Binary Image
+def ImgBlackTopHatBinary(img_input,coldepth):
+   img_output = ImgClosingBinary(img_input,coldepth)
+   img_output = ImageChops.subtract(img_output,img_input)
 
-#    if coldepth == 1:
-#          img_output = img_output.convert("1")
-#    elif coldepth == 8:
-#          img_output = img_output.convert("L")
-#    else:
-#          img_output = img_output.convert("RGB")
+   if coldepth == 1:
+         img_output = img_output.convert("1")
+   elif coldepth == 8:
+         img_output = img_output.convert("L")
+   else:
+         img_output = img_output.convert("RGB")
 
-#    return img_output
+   return img_output
