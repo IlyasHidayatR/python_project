@@ -220,10 +220,10 @@ list_processing = [
  #convesinal linear filter
  sg.Button("Weight Average Filter", size=(20, 1), key="ImgConvesinalLinearFilter"),
  ],
- [
- #convesinal linear filter
- sg.Button("Weight Average Filter 2", size=(20, 1), key="ImgConvesinalLinearFilter1"),
- ],
+#  [
+#  #convesinal linear filter
+#  sg.Button("Weight Average Filter 2", size=(20, 1), key="ImgConvesinalLinearFilter1"),
+#  ],
  [
  #gradient filter
  sg.Button("Gradient Filter", size=(20, 1), key="ImgGradientFilter"),
@@ -283,6 +283,14 @@ list_processing = [
  [
  #Dilation Binary Filter
  sg.Button("Dilation Binary Filter", size=(20, 1), key="ImgDilationBinaryFilter"),
+ ],
+ [
+ #Opening Binary Filter
+ sg.Button("Opening Binary Filter", size=(20, 1), key="ImgOpeningBinaryFilter"),
+ ],
+ [
+ #Closing Binary Filter
+ sg.Button("Closing Binary Filter", size=(20, 1), key="ImgClosingBinaryFilter"),
  ]
 ]
 # Kolom Area No 4: Area viewer image output
@@ -792,6 +800,26 @@ while True:
      try:
          window["ImgProcessingType"].update("Image Dilation Binary Filter")
          img_output=ImgDilationBinary(img_input,coldepth)
+         img_output.save(filename_out)
+         window["ImgOutputViewer"].update(filename=filename_out)
+     except:
+         pass
+
+ elif event == "ImgOpeningBinaryFilter":
+
+     try:
+         window["ImgProcessingType"].update("Image Opening Binary Filter")
+         img_output=ImgOpeningBinary(img_input,coldepth)
+         img_output.save(filename_out)
+         window["ImgOutputViewer"].update(filename=filename_out)
+     except:
+         pass
+
+ elif event == "ImgClosingBinaryFilter":
+
+     try:
+         window["ImgProcessingType"].update("Image Closing Binary Filter")
+         img_output=ImgClosingBinary(img_input,coldepth)
          img_output.save(filename_out)
          window["ImgOutputViewer"].update(filename=filename_out)
      except:

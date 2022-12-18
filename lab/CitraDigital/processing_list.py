@@ -1815,39 +1815,77 @@ def ImgGaussianFilter(img_input,coldepth):
 
 #Erosion Binary Image
 def ImgErosionBinary(img_input,coldepth):
-   SE = [[1, 1, 1], [1, 1, 1], [1, 1, 1]]
+   SE = [[0, 1, 0], [1, 1, 1], [0, 1, 0]]
    if coldepth!=24:
       img_input = img_input.convert('RGB')
 
    img_output = Image.new('RGB', (img_input.size[0], img_input.size[1]))
 
-   pixels = img_output.load()
-   input_pixels = img_input.load()
+   pixels = img_input.load()
+   horizontalSize = img_input.size[0]
+   verticalSize = img_input.size[1]
+   img_output = Image.new('RGB', (horizontalSize, verticalSize))
+   newPixels = img_output.load()
 
-   for i in range(img_input.size[0]):
-      for j in range(img_input.size[1]):
-         pixels[i,j] = (0,0,0)
-
-   for i in range(1,img_input.size[0]-1):
-      for j in range(1,img_input.size[1]-1):
+   offset = len(SE)//2
+   for i in range(offset, horizontalSize-offset):
+      for j in range(offset, verticalSize-offset):
          r_sum = 0
          g_sum = 0
          b_sum = 0
          for a in range(3):
             for b in range(3):
-               xn = i + a - 1
-               yn = j + b - 1
-               pixel = input_pixels[xn, yn]
+               xn = i + a - offset
+               yn = j + b - offset
+               pixel = pixels[xn, yn]
                r_sum += pixel[0] * SE[a][b]
                g_sum += pixel[1] * SE[a][b]
                b_sum += pixel[2] * SE[a][b]
 
-         #treshold and minimum filter
-         r_sum = sorted([r_sum,255])[0]
-         g_sum = sorted([g_sum,255])[0]
-         b_sum = sorted([b_sum,255])[0]
+         #threshold and minimum filter
+         r_sum = 0 if r_sum < 255 else 255
+         g_sum = 0 if g_sum < 255 else 255
+         b_sum = 0 if b_sum < 255 else 255
 
-         pixels[i,j] = (r_sum,g_sum,b_sum)
+         newPixels[i,j] = (r_sum,g_sum,b_sum)
+
+   if coldepth == 1:
+         img_output = img_output.convert("1")
+   elif coldepth == 8:
+         img_output = img_output.convert("L")
+   else:
+         img_output = img_output.convert("RGB")
+
+   return img_output
+
+def ImgErosionFilter(img_input,coldepth):
+   sx = [[0, 1, 0], [1, 1, 1], [0, 1, 0]]
+   if coldepth!=24:
+      img_input = img_input.convert('RGB')
+
+   img_output = Image.new('RGB', (img_input.size[0], img_input.size[1]))
+
+   pixels = img_input.load()
+   horizontalSize = img_input.size[0]
+   verticalSize = img_input.size[1]
+   img_output = Image.new('RGB', (horizontalSize, verticalSize))
+   newPixels = img_output.load()
+
+   offset = len(sx)//2
+   for i in range(offset, horizontalSize-offset):
+       for j in range(offset, verticalSize-offset):
+           xRGB = [0, 0, 0]
+           for k in range(len(sx)):
+               for l in range(len(sx)):
+                   r, g, b = pixels[i+k-offset, j+l-offset]
+                   xRGB[0] += r*sx[k][l]
+                   xRGB[1] += g*sx[k][l]
+                   xRGB[2] += b*sx[k][l]
+
+           for k in range(len(xRGB)):
+               xRGB[k] = xRGB[k]//4
+
+           newPixels[i, j] = (xRGB[0], xRGB[1], xRGB[2])
 
    if coldepth == 1:
          img_output = img_output.convert("1")
@@ -1867,33 +1905,33 @@ def ImgDilationBinary(img_input,coldepth):
 
    img_output = Image.new('RGB', (img_input.size[0], img_input.size[1]))
 
-   pixels = img_output.load()
-   input_pixels = img_input.load()
+   pixels = img_input.load()
+   horizontalSize = img_input.size[0]
+   verticalSize = img_input.size[1]
+   img_output = Image.new('RGB', (horizontalSize, verticalSize))
+   newPixels = img_output.load()
 
-   for i in range(img_input.size[0]):
-      for j in range(img_input.size[1]):
-         pixels[i,j] = (0,0,0) #make black
-
-   for i in range(1,img_input.size[0]-1):
-      for j in range(1,img_input.size[1]-1):
+   offset = len(SE)//2
+   for i in range(offset, horizontalSize-offset):
+      for j in range(offset, verticalSize-offset):
          r_sum = 0
          g_sum = 0
          b_sum = 0
          for a in range(3):
             for b in range(3):
-               xn = i + a - 1
-               yn = j + b - 1
-               pixel = input_pixels[xn, yn]
+               xn = i + a - offset
+               yn = j + b - offset
+               pixel = pixels[xn, yn]
                r_sum += pixel[0] * SE[a][b]
                g_sum += pixel[1] * SE[a][b]
                b_sum += pixel[2] * SE[a][b]
 
-         #treshold and maximum filter
-         r_sum = sorted([r_sum,255])[1]
-         g_sum = sorted([g_sum,255])[1]
-         b_sum = sorted([b_sum,255])[1]
+         #threshold and minimum filter
+         r_sum = 0 if r_sum < 255 else 255
+         g_sum = 0 if g_sum < 255 else 255
+         b_sum = 0 if b_sum < 255 else 255
 
-         pixels[i,j] = (r_sum,g_sum,b_sum)
+         newPixels[i,j] = (r_sum,g_sum,b_sum)
             
    if coldepth == 1:
          img_output = img_output.convert("1")
@@ -1905,10 +1943,58 @@ def ImgDilationBinary(img_input,coldepth):
    return img_output
 
 
+def ImgDilationFilter(img_input,coldepth):
+   if coldepth != 24:
+      img_input = img_input.convert('RGB')
+
+   pixels = img_input.load()
+   horizontalSize = img_input.size[0]
+   verticalSize = img_input.size[1]
+   img_output = Image.new('RGB', (horizontalSize, verticalSize))
+   newPixels = img_output.load()
+
+   sx = [[1, 1, 1],
+         [1, 1, 1],
+         [1, 1, 1]]
+   offset = len(sx)//2
+
+   for i in range(offset, horizontalSize-offset):
+       for j in range(offset, verticalSize-offset):
+           xRGB = [0, 0, 0]
+           for k in range(len(sx)):
+               for l in range(len(sx)):
+                   r, g, b = pixels[i+k-offset, j+l-offset]
+                   xRGB[0] += r*sx[k][l]
+                   xRGB[1] += g*sx[k][l]
+                   xRGB[2] += b*sx[k][l]
+
+           for k in range(len(xRGB)):
+               xRGB[k] = xRGB[k]//9
+
+           newPixels[i, j] = (xRGB[0], xRGB[1], xRGB[2])
+
+   if coldepth == 1:
+       img_output = img_output.convert("1")
+   elif coldepth == 8:
+       img_output = img_output.convert("L")
+   else:
+       img_output = img_output.convert("RGB")
+
+   return img_output
+   
+
 #Opening Binary Image
 def ImgOpeningBinary(img_input,coldepth):
    img_output = ImgErosionBinary(img_input,coldepth)
    img_output = ImgDilationBinary(img_output,coldepth)
+   
+   if coldepth == 1:
+         img_output = img_output.convert("1")
+   elif coldepth == 8:
+         img_output = img_output.convert("L")
+   else:
+         img_output = img_output.convert("RGB")
+
    return img_output
 
 
@@ -1916,4 +2002,42 @@ def ImgOpeningBinary(img_input,coldepth):
 def ImgClosingBinary(img_input,coldepth):
    img_output = ImgDilationBinary(img_input,coldepth)
    img_output = ImgErosionBinary(img_output,coldepth)
+   
+   if coldepth == 1:
+         img_output = img_output.convert("1")
+   elif coldepth == 8:
+         img_output = img_output.convert("L")
+   else:
+         img_output = img_output.convert("RGB")
+
    return img_output
+
+
+# #White Top Hat Binary Image
+# def ImgWhiteTopHatBinary(img_input,coldepth):
+#    img_output = ImgOpeningBinary(img_input,coldepth)
+#    img_output = ImageChops.subtract(img_input,img_output)
+
+#    if coldepth == 1:
+#          img_output = img_output.convert("1")
+#    elif coldepth == 8:
+#          img_output = img_output.convert("L")
+#    else:
+#          img_output = img_output.convert("RGB")
+
+#    return img_output
+
+
+# #Black Top Hat Binary Image
+# def ImgBlackTopHatBinary(img_input,coldepth):
+#    img_output = ImgClosingBinary(img_input,coldepth)
+#    img_output = ImageChops.subtract(img_output,img_input)
+
+#    if coldepth == 1:
+#          img_output = img_output.convert("1")
+#    elif coldepth == 8:
+#          img_output = img_output.convert("L")
+#    else:
+#          img_output = img_output.convert("RGB")
+
+#    return img_output
