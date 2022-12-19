@@ -291,7 +291,11 @@ list_processing = [
  [
  #Closing Binary Filter
  sg.Button("Closing Binary Filter", size=(20, 1), key="ImgClosingBinaryFilter"),
- ]
+ ],
+#  [
+#  #white top hat
+#  sg.Button("Closing Binary Filter", size=(20, 1), key="ImgWhiteTopHatFilter"),
+#  ]
 ]
 # Kolom Area No 4: Area viewer image output
 image_viewer_column2 = [
@@ -820,6 +824,16 @@ while True:
      try:
          window["ImgProcessingType"].update("Image Closing Binary Filter")
          img_output=ImgClosingBinary(img_input,coldepth)
+         img_output.save(filename_out)
+         window["ImgOutputViewer"].update(filename=filename_out)
+     except:
+         pass
+
+ elif event == "ImgWhiteTopHatFilter":
+
+     try:
+         window["ImgProcessingType"].update("Image White Top Hat Filter")
+         img_output=ImgWhiteTopHatBinary(img_input,coldepth)
          img_output.save(filename_out)
          window["ImgOutputViewer"].update(filename=filename_out)
      except:
