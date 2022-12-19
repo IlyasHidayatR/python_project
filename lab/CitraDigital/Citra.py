@@ -839,4 +839,14 @@ while True:
      except:
          pass
 
-window.close()  
+ elif event == "ImgBlackTopHatFilter":
+
+     try:
+         window["ImgProcessingType"].update("Image Black Top Hat Filter")
+         img_output=ImgBlackTopHatBinary(img_input,coldepth)
+         img_output.save(filename_out)
+         window["ImgOutputViewer"].update(filename=filename_out)
+     except:
+         pass
+
+window.close()
