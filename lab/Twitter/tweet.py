@@ -7,7 +7,7 @@ from Sastrawi.StopWordRemover.StopWordRemoverFactory import StopWordRemoverFacto
 from textblob import TextBlob
 import matplotlib.pyplot as plt
 
-query = "(#KUHP) && (KUHP) until:2022-12-14 since:2022-11-01"
+query = "(#KUHP) && (KUHP) until:2022-12-20 since:2022-11-01"
 tweets = []
 limits = 500
 

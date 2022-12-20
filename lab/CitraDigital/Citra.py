@@ -211,11 +211,11 @@ list_processing = [
 #  #image min filter
 #  sg.Button("Image Min Filter", size=(20, 1), key="ImgMinFilter"),
 #  ],
- [
+#  [
  #input mask value for linear filter
 #  sg.Text("Mask Value:"),
 #  sg.InputText(size=(5, 1), key="MaskValue"),
- ],
+#  ],
  [
  #convesinal linear filter
  sg.Button("Weight Average Filter", size=(20, 1), key="ImgConvesinalLinearFilter"),
