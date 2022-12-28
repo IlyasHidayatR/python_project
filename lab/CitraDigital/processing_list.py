@@ -2032,3 +2032,116 @@ def ImgBlackTopHatBinary(img_input,coldepth):
          img_output = img_output.convert("RGB")
 
    return img_output
+
+
+#Change color with RGB color space
+def ImgChangeColorRGB(img_input,coldepth,r,g,b):
+   if coldepth != 24:
+      img_input = img_input.convert('RGB')
+
+   pixels = img_input.load()
+   horizontalSize = img_input.size[0]
+   verticalSize = img_input.size[1]
+   img_output = Image.new('RGB', (horizontalSize, verticalSize))
+   newPixels = img_output.load()
+
+   #change color with RGB color space
+   for i in range(horizontalSize):
+      for j in range(verticalSize):
+         xRGB = pixels[i, j]
+         xR = xRGB[0]
+         xG = xRGB[1]
+         xB = xRGB[2]
+         xR = xR + r
+         xG = xG + g
+         xB = xB + b
+         if xR > 255:
+            xR = 255
+         elif xR < 0:
+            xR = 0
+         if xG > 255:
+            xG = 255
+         elif xG < 0:
+            xG = 0
+         if xB > 255:
+            xB = 255
+         elif xB < 0:
+            xB = 0
+         newPixels[i, j] = (xR, xG, xB)
+
+   if coldepth == 1:
+         img_output = img_output.convert("1")
+   elif coldepth == 8:
+         img_output = img_output.convert("L")
+   else:
+         img_output = img_output.convert("RGB")
+
+   return img_output
+
+
+#desaturate image with RGB color space (sCol = 0 to 1)
+def ImgDesaturateRGB(img_input,coldepth,sCol):
+   if coldepth != 24:
+      img_input = img_input.convert('RGB')
+
+   pixels = img_input.load()
+   horizontalSize = img_input.size[0]
+   verticalSize = img_input.size[1]
+   img_output = Image.new('RGB', (horizontalSize, verticalSize))
+   newPixels = img_output.load()
+
+   #desaturate image with RGB color space (sCol = 0 to 1)
+   for i in range(horizontalSize):
+      for j in range(verticalSize):
+         xRGB = pixels[i, j]
+         xR = xRGB[0]
+         xG = xRGB[1]
+         xB = xRGB[2]
+         x = (xR + xG + xB) // 3
+         xR = xR + (x - xR) * sCol
+         xG = xG + (x - xG) * sCol
+         xB = xB + (x - xB) * sCol
+         newPixels[i, j] = (xR, xG, xB)
+
+   if coldepth == 1:
+         img_output = img_output.convert("1")
+   elif coldepth == 8:
+         img_output = img_output.convert("L")
+   else:
+         img_output = img_output.convert("RGB")
+
+   return img_output
+
+
+#image segmentation with RGB color space
+def ImgSegmentationRGB(img_input,coldepth,threshold):
+   if coldepth != 24:
+      img_input = img_input.convert('RGB')
+
+   pixels = img_input.load()
+   horizontalSize = img_input.size[0]
+   verticalSize = img_input.size[1]
+   img_output = Image.new('RGB', (horizontalSize, verticalSize))
+   newPixels = img_output.load()
+
+   #image segmentation with RGB color space
+   for i in range(horizontalSize):
+      for j in range(verticalSize):
+         xRGB = pixels[i, j]
+         xR = xRGB[0]
+         xG = xRGB[1]
+         xB = xRGB[2]
+         x = (xR + xG + xB) // 3
+         if x > threshold:
+            newPixels[i, j] = (255, 255, 255)
+         else:
+            newPixels[i, j] = (0, 0, 0)
+
+   if coldepth == 1:
+         img_output = img_output.convert("1")
+   elif coldepth == 8:
+         img_output = img_output.convert("L")
+   else:
+         img_output = img_output.convert("RGB")
+
+   return img_output

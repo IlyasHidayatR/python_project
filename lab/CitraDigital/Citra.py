@@ -284,18 +284,53 @@ list_processing = [
  #Dilation Binary Filter
  sg.Button("Dilation Binary Filter", size=(20, 1), key="ImgDilationBinaryFilter"),
  ],
- [
- #Opening Binary Filter
- sg.Button("Opening Binary Filter", size=(20, 1), key="ImgOpeningBinaryFilter"),
- ],
- [
- #Closing Binary Filter
- sg.Button("Closing Binary Filter", size=(20, 1), key="ImgClosingBinaryFilter"),
- ],
+#  [
+#  #Opening Binary Filter
+#  sg.Button("Opening Binary Filter", size=(20, 1), key="ImgOpeningBinaryFilter"),
+#  ],
+#  [
+#  #Closing Binary Filter
+#  sg.Button("Closing Binary Filter", size=(20, 1), key="ImgClosingBinaryFilter"),
+#  ],
 #  [
 #  #white top hat
-#  sg.Button("Closing Binary Filter", size=(20, 1), key="ImgWhiteTopHatFilter"),
-#  ]
+#  sg.Button("White Top Hat", size=(20, 1), key="ImgWhiteTopHat"),
+#  ],
+#  [
+#  #black top hat
+#  sg.Button("Black Top Hat", size=(20, 1), key="ImgBlackTopHat"),
+#  ],
+#  [
+#  #input for rgb value
+#  sg.Text("Red:"),
+#  sg.InputText(size=(5, 1), key="RedValue"),
+#  sg.Text("Green:"),
+#  sg.InputText(size=(5, 1), key="GreenValue"),
+#  sg.Text("Blue:"),
+#  sg.InputText(size=(5, 1), key="BlueValue"),
+#  ],
+#  [
+#  #rgb filter
+#  sg.Button("RGB Filter", size=(20, 1), key="ImgRGBFilter"),
+#  ],
+#  [
+#  #input sCol for desaturate
+#  sg.Text("sCol:"),
+#  sg.InputText(size=(5, 1), key="sColValue"),
+#  ],
+#  [
+#  #Desaturate image with RGB color space
+#  sg.Button("Desaturate RGB", size=(20, 1), key="ImgDesaturateRGB"),
+#  ],
+ [
+ #input threshold value for color segmentation
+ sg.Text("Threshold Value:"),
+ sg.InputText(size=(5, 1), key="ThresholdValue"),
+ ],
+ [
+ #image segmentation with RGB color space
+ sg.Button("Image Segmentation RGB", size=(20, 1), key="ImgSegmentationRGB"),
+ ],
 ]
 # Kolom Area No 4: Area viewer image output
 image_viewer_column2 = [
@@ -844,6 +879,41 @@ while True:
      try:
          window["ImgProcessingType"].update("Image Black Top Hat Filter")
          img_output=ImgBlackTopHatBinary(img_input,coldepth)
+         img_output.save(filename_out)
+         window["ImgOutputViewer"].update(filename=filename_out)
+     except:
+         pass
+
+ elif event == "ImgRGBFilter":
+
+     try:
+         window["ImgProcessingType"].update("Image RGB Filter")
+         r = int(values["RedValue"])
+         g = int(values["GreenValue"])
+         b = int(values["BlueValue"])
+         img_output=ImgChangeColorRGB(img_input,coldepth,r,g,b)
+         img_output.save(filename_out)
+         window["ImgOutputViewer"].update(filename=filename_out)
+     except:
+         pass
+
+ elif event == "ImgDesaturateRGB":
+
+     try:
+         window["ImgProcessingType"].update("Image Desaturate RGB")
+         sCol = float(values["sColValue"])
+         img_output=ImgDesaturateRGB(img_input,coldepth,sCol)
+         img_output.save(filename_out)
+         window["ImgOutputViewer"].update(filename=filename_out)
+     except:
+         pass
+
+ elif event == "ImgSegmentationRGB":
+
+     try:
+         window["ImgProcessingType"].update("Image Segmentation RGB")
+         threshold = int(values["thresholdValue"])
+         img_output=ImgSegmentationRGB(img_input,coldepth,threshold)
          img_output.save(filename_out)
          window["ImgOutputViewer"].update(filename=filename_out)
      except:
