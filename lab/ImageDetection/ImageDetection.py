@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Load the image
-image = Image.open('lab/ImageDetection/Image1.jpg')
+image = Image.open('lab/ImageDetection/Image2.jpg')
 
 # Image resize to 50% of original size
 image = image.resize((int(image.width * 0.5), int(image.height * 0.5)))
@@ -20,7 +20,7 @@ def detect_fruits_and_vegetables(image):
         'Apple': (255, 0, 0),
         'Blueberry': (0, 0, 255),
         'Orange': (255, 165, 0),
-        'Strawberry': (255, 0, 255),
+        'Strawberry': (255, 0, 0),
         'Green Apple': (0, 255, 0),
         'Grapes': (255, 0, 0),
         # Vegetables
@@ -47,15 +47,15 @@ def detect_fruits_and_vegetables(image):
         # Mask the image to only select the colors to detect
         segmented_image = cv2.bitwise_and(image, image, mask=mask)
 
-        # Convert the image to grayscale color space
-        segmented_image = cv2.cvtColor(segmented_image, cv2.COLOR_BGR2GRAY)
-
         # Apply a threshold to the image
         _, segmented_image = cv2.threshold(segmented_image, 10, 255, cv2.THRESH_BINARY)
 
         # Apply a morphological operation to the image with a 5x5 kernel and Close operation
         kernel = np.ones((5, 5), np.uint8)
         segmented_image = cv2.morphologyEx(segmented_image, cv2.MORPH_CLOSE, kernel)
+
+        # Convert the image to grayscale color space
+        segmented_image = cv2.cvtColor(segmented_image, cv2.COLOR_BGR2GRAY)
 
         # Find the contours of the image with OpenCV
         contours, _ = cv2.findContours(segmented_image, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
