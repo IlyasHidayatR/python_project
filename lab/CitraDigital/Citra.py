@@ -284,14 +284,14 @@ list_processing = [
  #Dilation Binary Filter
  sg.Button("Dilation Binary Filter", size=(20, 1), key="ImgDilationBinaryFilter"),
  ],
-#  [
-#  #Opening Binary Filter
-#  sg.Button("Opening Binary Filter", size=(20, 1), key="ImgOpeningBinaryFilter"),
-#  ],
-#  [
-#  #Closing Binary Filter
-#  sg.Button("Closing Binary Filter", size=(20, 1), key="ImgClosingBinaryFilter"),
-#  ],
+ [
+ #Opening Binary Filter
+ sg.Button("Opening Binary Filter", size=(20, 1), key="ImgOpeningBinaryFilter"),
+ ],
+ [
+ #Closing Binary Filter
+ sg.Button("Closing Binary Filter", size=(20, 1), key="ImgClosingBinaryFilter"),
+ ],
 #  [
 #  #white top hat
 #  sg.Button("White Top Hat", size=(20, 1), key="ImgWhiteTopHat"),
@@ -315,22 +315,24 @@ list_processing = [
 #  ],
 #  [
 #  #input sCol for desaturate
-#  sg.Text("sCol:"),
+#  sg.Text("sCol (0 to 1):"),
 #  sg.InputText(size=(5, 1), key="sColValue"),
 #  ],
 #  [
 #  #Desaturate image with RGB color space
 #  sg.Button("Desaturate RGB", size=(20, 1), key="ImgDesaturateRGB"),
 #  ],
- [
- #input threshold value for color segmentation
- sg.Text("Threshold Value:"),
- sg.InputText(size=(5, 1), key="ThresholdValue"),
- ],
- [
- #image segmentation with RGB color space
- sg.Button("Image Segmentation RGB", size=(20, 1), key="ImgSegmentationRGB"),
- ],
+#  [
+#  #input threshold value and color number
+#  sg.Text("Threshold:"),
+#  sg.InputText(size=(5, 1), key="ThresholdValue"),
+#  sg.Text("Color Number (R/G/B):"),
+#  sg.InputText(size=(5, 1), key="ColorNumberValue"),
+#  ],
+#  [
+#  #image segmentation with RGB color space
+#  sg.Button("Image Segmentation RGB", size=(20, 1), key="ImgSegmentationRGB"),
+#  ],
 ]
 # Kolom Area No 4: Area viewer image output
 image_viewer_column2 = [
@@ -912,8 +914,9 @@ while True:
 
      try:
          window["ImgProcessingType"].update("Image Segmentation RGB")
-         threshold = int(values["thresholdValue"])
-         img_output=ImgSegmentationRGB(img_input,coldepth,threshold)
+         threshold = int(values["ThresholdValue"])
+         color = values["ColorNumberValue"]
+         img_output=ImgSegmentationRGB(img_input,coldepth,threshold,color)
          img_output.save(filename_out)
          window["ImgOutputViewer"].update(filename=filename_out)
      except:

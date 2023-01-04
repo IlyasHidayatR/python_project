@@ -2079,7 +2079,7 @@ def ImgChangeColorRGB(img_input,coldepth,r,g,b):
    return img_output
 
 
-#desaturate image with RGB color space (sCol = 0 to 1)
+#desaturate image with RGB color space (sCol = 0.0 to 1.1)
 def ImgDesaturateRGB(img_input,coldepth,sCol):
    if coldepth != 24:
       img_input = img_input.convert('RGB')
@@ -2090,7 +2090,7 @@ def ImgDesaturateRGB(img_input,coldepth,sCol):
    img_output = Image.new('RGB', (horizontalSize, verticalSize))
    newPixels = img_output.load()
 
-   #desaturate image with RGB color space (sCol = 0 to 1)
+   #desaturate image with RGB color space
    for i in range(horizontalSize):
       for j in range(verticalSize):
          xRGB = pixels[i, j]
@@ -2098,9 +2098,9 @@ def ImgDesaturateRGB(img_input,coldepth,sCol):
          xG = xRGB[1]
          xB = xRGB[2]
          x = (xR + xG + xB) // 3
-         xR = xR + (x - xR) * sCol
-         xG = xG + (x - xG) * sCol
-         xB = xB + (x - xB) * sCol
+         xR = x + (xR - x) * sCol
+         xG = x + (xG - x) * sCol
+         xB = x + (xB - x) * sCol
          newPixels[i, j] = (xR, xG, xB)
 
    if coldepth == 1:
@@ -2114,7 +2114,7 @@ def ImgDesaturateRGB(img_input,coldepth,sCol):
 
 
 #image segmentation with RGB color space
-def ImgSegmentationRGB(img_input,coldepth,threshold):
+def ImgSegmentationRGB(img_input,coldepth,threshold, color):
    if coldepth != 24:
       img_input = img_input.convert('RGB')
 
@@ -2131,11 +2131,21 @@ def ImgSegmentationRGB(img_input,coldepth,threshold):
          xR = xRGB[0]
          xG = xRGB[1]
          xB = xRGB[2]
-         x = (xR + xG + xB) // 3
-         if x > threshold:
-            newPixels[i, j] = (255, 255, 255)
-         else:
-            newPixels[i, j] = (0, 0, 0)
+         if color == "R":
+            if xR > threshold:
+               newPixels[i, j] = (0, 0, 0)
+            else:
+               newPixels[i, j] = (255, 255, 255)
+         elif color == "G":
+            if xG > threshold:
+               newPixels[i, j] = (0, 0, 0)
+            else:
+               newPixels[i, j] = (255, 255, 255)
+         elif color == "B":
+            if xB > threshold:
+               newPixels[i, j] = (0, 0, 0)
+            else:
+               newPixels[i, j] = (255, 255, 255)
 
    if coldepth == 1:
          img_output = img_output.convert("1")
