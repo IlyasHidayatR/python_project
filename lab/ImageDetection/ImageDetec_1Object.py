@@ -8,11 +8,11 @@ image = cv2.imread('lab/ImageDetection/Image1.jpg')
 # Image resize to 50% of original size
 image = cv2.resize(image, (0, 0), fx=0.5, fy=0.5)
 
-# Convert image to numpy array
-image = np.array(image)
-
 # Convert the image to RGB color space
 rgb_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+# Convert image to numpy array
+image = np.array(image)
 
 # Color fruits and vegetables in RGB color space
 color_fruits_and_vegetables = {
