@@ -32,8 +32,8 @@ color_fruits_and_vegetables = {
 
 # Define the color boundaries in RGB color space for the color to detect
 color_to_detect = 'Tomato'
-lower_color = np.array(color_fruits_and_vegetables[color_to_detect]) - 40
-upper_color = np.array(color_fruits_and_vegetables[color_to_detect]) + 40
+lower_color = np.array(color_fruits_and_vegetables[color_to_detect]) - 30
+upper_color = np.array(color_fruits_and_vegetables[color_to_detect]) + 30
 
 # Create a mask for the colors
 mask = cv2.inRange(rgb_image, lower_color, upper_color)
