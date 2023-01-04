@@ -1,0 +1,19 @@
+Task:
+Diberikan 4 citra uji. Usulkanlah rangkaian proses pengolahan citra untuk dapat mengetahui berapa 
+banyak jenis buah/sayuran berbeda yang ada pada masing-masing citra uji, serta memperkirakan 
+berapa banyak terdapat masing-masing jenis buah/sayuran pada masing-masing citra uji tersebut.
+Hint:
+- Gunakan konsep color space
+- Terapkan konsep color segmentation
+- Manfaatkan konsep morfologi citra jika perlu
+- Manfaatkan konsep deteksi tepi jika perlu
+
+Pengumpulan:
+- Sebuah paper NIM_Paper.pdf berisi penjelasan detail langkah dan contoh hasil dari program yang dibuat, 
+  serta penjelasan code program utama yang digunakan.
+- Sebuah folder NIM_Code berisi code program yang dibuat
+- Paper dan Code di zip menjadi NIM.zip
+
+Deadline:
+- Sabtu, 7 Januari 2023, Pk. 20.00 WITA
+- Dikumpulkan by google drive, mohon dibuat oleh Korti.
