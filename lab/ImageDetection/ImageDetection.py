@@ -47,7 +47,7 @@ def detect_fruits_and_vegetables(image):
         # Mask the image to only select the colors to detect
         segmented_image = cv2.bitwise_and(image, image, mask=mask)
 
-        # Apply a threshold to the image
+        # Apply a threshold to the image (10 for the threshold value and 255 for the maximum value)
         _, segmented_image = cv2.threshold(segmented_image, 10, 255, cv2.THRESH_BINARY)
 
         # Apply a morphological operation to the image with a 5x5 kernel and Close operation
