@@ -2133,19 +2133,19 @@ def ImgSegmentationRGB(img_input,coldepth,threshold, color):
          xB = xRGB[2]
          if color == "R":
             if xR > threshold:
-               newPixels[i, j] = (0, 0, 0)
+               newPixels[i, j] = (255, 0, 0)
             else:
-               newPixels[i, j] = (255, 255, 255)
+               newPixels[i, j] = (0, 0, 0)
          elif color == "G":
             if xG > threshold:
-               newPixels[i, j] = (0, 0, 0)
+               newPixels[i, j] = (0, 255, 0)
             else:
-               newPixels[i, j] = (255, 255, 255)
+               newPixels[i, j] = (0, 0, 0)
          elif color == "B":
             if xB > threshold:
-               newPixels[i, j] = (0, 0, 0)
+               newPixels[i, j] = (0, 0, 255)
             else:
-               newPixels[i, j] = (255, 255, 255)
+               newPixels[i, j] = (0, 0, 0)
 
    if coldepth == 1:
          img_output = img_output.convert("1")
