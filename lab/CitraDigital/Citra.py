@@ -284,14 +284,14 @@ list_processing = [
  #Dilation Binary Filter
  sg.Button("Dilation Binary Filter", size=(20, 1), key="ImgDilationBinaryFilter"),
  ],
- [
- #Opening Binary Filter
- sg.Button("Opening Binary Filter", size=(20, 1), key="ImgOpeningBinaryFilter"),
- ],
- [
- #Closing Binary Filter
- sg.Button("Closing Binary Filter", size=(20, 1), key="ImgClosingBinaryFilter"),
- ],
+#  [
+#  #Opening Binary Filter
+#  sg.Button("Opening Binary Filter", size=(20, 1), key="ImgOpeningBinaryFilter"),
+#  ],
+#  [
+#  #Closing Binary Filter
+#  sg.Button("Closing Binary Filter", size=(20, 1), key="ImgClosingBinaryFilter"),
+#  ],
 #  [
 #  #white top hat
 #  sg.Button("White Top Hat", size=(20, 1), key="ImgWhiteTopHat"),
@@ -322,17 +322,17 @@ list_processing = [
 #  #Desaturate image with RGB color space
 #  sg.Button("Desaturate RGB", size=(20, 1), key="ImgDesaturateRGB"),
 #  ],
-#  [
-#  #input threshold value and color number
-#  sg.Text("Threshold:"),
-#  sg.InputText(size=(5, 1), key="ThresholdValue"),
-#  sg.Text("Color Number (R/G/B):"),
-#  sg.InputText(size=(5, 1), key="ColorNumberValue"),
-#  ],
-#  [
-#  #image segmentation with RGB color space
-#  sg.Button("Image Segmentation RGB", size=(20, 1), key="ImgSegmentationRGB"),
-#  ],
+ [
+ #input threshold value and color number
+ sg.Text("Threshold:"),
+ sg.InputText(size=(5, 1), key="ThresholdValue"),
+ sg.Text("Color Number (R/G/B):"),
+ sg.InputText(size=(5, 1), key="ColorNumberValue"),
+ ],
+ [
+ #image segmentation with RGB color space
+ sg.Button("Image Segmentation RGB", size=(20, 1), key="ImgSegmentationRGB"),
+ ],
 ]
 # Kolom Area No 4: Area viewer image output
 image_viewer_column2 = [
