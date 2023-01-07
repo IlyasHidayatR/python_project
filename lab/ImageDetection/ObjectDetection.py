@@ -3,13 +3,22 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Load the image
-image = Image.open('lab/ImageDetection/Image1.jpg')
+image_ori = Image.open('lab/ImageDetection/Image1.jpg')
 
 # Image resize to 50% of original size
-image = image.resize((int(image.width * 0.5), int(image.height * 0.5)))
+image = image_ori.resize((int(image_ori.width * 0.5), int(image_ori.height * 0.5)))
 
 # Convert the image to RGB
 image = image.convert('RGB')
+
+# Show the image original and resize with matplotlib
+plt.subplot(1, 2, 1)
+plt.title('Original')
+plt.imshow(image_ori)
+plt.subplot(1, 2, 2)
+plt.title('Resize')
+plt.imshow(image)
+plt.show()
 
 def erosion(image):
     # Set the kernel 5x5
@@ -199,14 +208,27 @@ def count_fruit_vegetable(image):
 
         # Create a mask for the colors without openCV
         mask = segmentation(image, upper_color, lower_color)
+        # show the mask with matplotlib
+        plt.title("Segmentation")
+        plt.imshow(mask)
+        plt.show()
 
         # Apply morphological operations
-        mask = erosion(mask)
+        # mask = erosion(mask)
         # mask = dilation(mask)
-        # mask = closing(mask)
+        mask = closing(mask)
+        # show the mask with matplotlib
+        plt.title("Morphological Operations")
+        plt.imshow(mask)
+        plt.show()
+        
 
         # Find the contours
         mask = find_contours(mask)
+        # show the mask with matplotlib
+        plt.title("Find Contours")
+        plt.imshow(mask)
+        plt.show()
 
         # Convert the mask to NumPy array
         mask = np.array(mask)
@@ -230,19 +252,8 @@ def count_fruit_vegetable(image):
         # Convert the mask to NumPy array
         mask = np.array(mask)
         
-        # count the number of fruits and vegetables in the image with how many circle created by the contour
-        fruits_and_vegetables_count[color_to_detect] = 0
-        for i in range(mask.shape[0]):
-            for j in range(mask.shape[1]):
-                # Get the pixel value
-                pixel = mask[i, j]
-
-                # Check if the pixel value is 1
-                if pixel == 1:
-                    # Check if the pixel is in the circle area
-                    if (i - 100) ** 2 + (j - 100) ** 2 <= 100 ** 2:
-                        # Count the number of fruits and vegetables in the image
-                        fruits_and_vegetables_count[color_to_detect] += 1
+        # count the number of fruits and vegetables in the image with how many circle
+        fruits_and_vegetables_count[color_to_detect] = np.sum(mask)
 
         # Show the result of the color segmentation with matplotlib
         plt.figure(figsize=(10, 10))
