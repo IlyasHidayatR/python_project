@@ -2,11 +2,11 @@ import os
 import openai
 import telebot
 
-# Set your OpenAI API key
-openai.api_key = "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"
+# Set your OpenAI API key from .env file
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
-# Set up your Telegram Bot API token
-bot = telebot.TeleBot("6416718121:AAG8O_FELLK1S9fDyfiWfg9cg0Se10Fm0zI")
+# Set up your Telegram Bot API token from .env file
+bot = telebot.TeleBot(os.getenv("TELEGRAM_BOT_API_TOKEN"))
 
 # Define the chatbot function
 def chatbot_openai(message):
