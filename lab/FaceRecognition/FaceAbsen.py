@@ -6,6 +6,8 @@ import csv
 import pandas as pd
 import datetime
 import PySimpleGUI as sg
+import recordFace
+import trainingModel
 
 # Path to the dataset
 path = 'lab/FaceRecognition/dataset'
@@ -29,7 +31,7 @@ def main():
     # Get the current time
     time = now.strftime("%H:%M:%S")
 
-    # Initialize the camera
+    # Initialize the camera and size
     camera = 0
     video = cv2.VideoCapture(camera, cv2.CAP_DSHOW)
 
@@ -39,9 +41,10 @@ def main():
                 [sg.Text('Name: ', size=(8, 1), font=("Helvetica", 15)), sg.Text('', size=(15, 1), font=("Helvetica", 15), key='-OUTPUT-')],
                 [sg.Text('Date: ', size=(8, 1), font=("Helvetica", 15)), sg.Text(date, size=(15, 1), font=("Helvetica", 15), key='-OUTPUT3-')],
                 [sg.Text('Time: ', size=(8, 1), font=("Helvetica", 15)), sg.Text(time, size=(15, 1), font=("Helvetica", 15), key='-OUTPUT2-')],
-                [sg.Image(filename='', key='-IMAGE-')],
+                [sg.Button('Record Face', size=(15, 1), font=("Helvetica", 15)), sg.Button('Train Face', size=(15, 1), font=("Helvetica", 15))],
+                [sg.Image(filename='', key='-IMAGE-', size=(280, 280))],
                 [sg.Button('Start', size=(10, 1), font=("Helvetica", 15)), sg.Button('Stop', size=(10, 1), font=("Helvetica", 15)), sg.Button('Exit', size=(10, 1), font=("Helvetica", 15)), sg.Button('Show Attendance', size=(15, 1), font=("Helvetica", 15)), sg.Button('Clear Attendance', size=(15, 1), font=("Helvetica", 15))]]
-    window = sg.Window('Face Recognition Attendance System', layout, size=(800, 700), element_justification='center', finalize=True)
+    window = sg.Window('Face Recognition Attendance System', layout, size=(800, 900), element_justification='center', finalize=True)
     window['-OUTPUT-'].expand(expand_x=True)
     window['-OUTPUT2-'].expand(expand_x=True)
     window['-OUTPUT3-'].expand(expand_x=True)
@@ -68,7 +71,7 @@ def main():
 
     # Main loop
     while True:
-        # Read the frame
+        # Read the frame from the camera
         check, frame = video.read()
 
         # Convert to grayscale
@@ -202,6 +205,14 @@ def main():
                 with open(attendance, 'w', newline='') as csvFile:
                     csvWriter = csv.writer(csvFile)
                     csvWriter.writerow(['Name', 'Date', 'Time'])
+
+        # If the 'Record Face' button is clicked, then record the face
+        if event == 'Record Face':
+            recordFace.faceRecord()
+
+        # If the 'Train Face' button is clicked, then train the face
+        if event == 'Train Face':
+            trainingModel.trainModel()
 
     # Release the camera
     video.release()
