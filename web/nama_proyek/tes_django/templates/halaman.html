@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- icon logo -->
+    <link rel="icon" href="https://media.istockphoto.com/id/1267681505/id/vektor/ilustrasi-vektor-desain-logo-kopi-konsep-desain-vektor-vintage-coffee-logo-untuk-kafe-dan.jpg?s=612x612&w=0&k=20&c=MT9TOINdVeXovXeQJkn2F5dxYh6taKS201UGudBQwT4=" type="image" sizes="16x16">
+    <title>Kedai Kopi {{nama}}</title> <!-- Ganti dengan nama Anda -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Gaya tambahan sesuai kebutuhan Anda */
+        body {
+            background-color: #ffffff;
+        }
+        .jumbotron {
+            background-image: url('https://c0.wallpaperflare.com/preview/452/100/984/restaurant-bar-coffee-shop.jpg');
+            background-size: cover;
+            color: white;
+            text-align: center;
+            padding: 100px 0;
+        }
+        .container {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="#">Kedai Kopi {{nama}}</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#about">Tentang Kami</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#menu">Menu</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#contact">Kontak</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Jumbotron -->
+<div class="jumbotron">
+    <h1>Selamat Datang di Kedai Kopi {{nama}}</h1> <!-- Ganti dengan nama Anda -->
+    <p>Nikmati aroma kopi segar dan cita rasa yang otentik!</p>
+    <a class="btn btn-primary btn-lg" href="#menu" role="button">Lihat Menu</a>
+</div>
+
+<!-- Tentang Kami -->
+<div id="about" class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Tentang Kami</h2>
+            <p>Kedai Kopi {{nama}} adalah tempat terbaik untuk menikmati kopi berkualitas tinggi dan makanan lezat. Kami selalu menggunakan biji kopi pilihan yang disangrai dengan cermat untuk menghasilkan kopi terbaik untuk Anda.</p>
+        </div>
+        <div class="col-md-6">
+            <img src="https://media.istockphoto.com/id/1324007866/id/foto/biji-kopi-dengan-sendok-kayu.jpg?s=612x612&w=0&k=20&c=NaMSimK0UUJXpTjDJ3RKpC8gHKRqbDpQjOHQtWA2xz8=" alt="Coffee Beans" class="img-fluid">
+        </div>
+    </div>
+</div>
+
+<!-- Menu -->
+<div id="menu" class="container">
+    <h2>Menu</h2>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <img src="https://media.istockphoto.com/id/1073758592/id/foto/es-frappe-kopi-di-kedai-kopi.jpg?s=612x612&w=0&k=20&c=uOPenGNgHhXjHw_Z8XPoyzqcWXZe8zX9_qMboao0M8U=" alt="Menu Item 1" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">Kopi Spesial</h5>
+                    <p class="card-text">Nikmati berbagai jenis kopi spesial dengan rasa yang unik.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <img src="https://media.istockphoto.com/id/1406018281/id/foto/tartlet-lemon-tart-mini-dengan-dadih-lemon-latar-belakang-memanggang-latar-belakang-kue.jpg?s=612x612&w=0&k=20&c=E8UBF1Bf-ZosMkRnjvPiakRlqZ5tDLNMKZxF09riBXc=" alt="Menu Item 2" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">Makanan Lezat</h5>
+                    <p class="card-text">Kami juga menyajikan makanan lezat untuk menemani kopi Anda.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <img src="https://media.istockphoto.com/id/155376375/id/foto/jus-buah.jpg?s=612x612&w=0&k=20&c=L1D7TC66JRlCDo_Kp9qT0ThxX9xByINTRYGRQh97UhA=" alt="Menu Item 3" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">Minuman Segar</h5>
+                    <p class="card-text">Selain kopi, kami juga menyajikan minuman segar yang menyegarkan.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Kontak -->
+<div id="contact" class="container">
+    <h2>Kontak</h2>
+    <p>Jika Anda memiliki pertanyaan atau ingin melakukan reservasi, silakan hubungi kami:</p>
+    <p>Telepon: (123) 456-7890</p>
+    <p>Email: info@kedaikopi-{{nama}}.com</p>
+</div>
+
+<!-- Footer -->
+<footer class="bg-dark text-white text-center py-3">
+    &copy; 2023 Kedai Kopi {{nama}}
+</footer>
+
+<!-- Script Bootstrap -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
