@@ -44,7 +44,7 @@ def main():
                 [sg.Text('Name: ', size=(8, 1), font=("Helvetica", 15)), sg.Text('', size=(15, 1), font=("Helvetica", 15), key='-OUTPUT-')],
                 [sg.Text('Date: ', size=(8, 1), font=("Helvetica", 15)), sg.Text(date, size=(15, 1), font=("Helvetica", 15), key='-OUTPUT3-')],
                 [sg.Text('Time: ', size=(8, 1), font=("Helvetica", 15)), sg.Text(time, size=(15, 1), font=("Helvetica", 15), key='-OUTPUT2-')],
-                [sg.Button('Record Face', size=(15, 1), font=("Helvetica", 15)), sg.Button('Train Face', size=(15, 1), font=("Helvetica", 15))],
+                [sg.Button('Maximize', size=(10, 1), font=("Helvetica", 15)), sg.Button('Minimize', size=(10, 1), font=("Helvetica", 15)), sg.Button('Record Face', size=(10, 1), font=("Helvetica", 15)), sg.Button('Train Face', size=(10, 1), font=("Helvetica", 15))],
                 [sg.Image(filename='', key='-IMAGE-', size=(280, 280))],
                 [sg.Button('Start', size=(10, 1), font=("Helvetica", 15)), sg.Button('Stop', size=(10, 1), font=("Helvetica", 15)), sg.Button('Exit', size=(10, 1), font=("Helvetica", 15)), sg.Button('Show Attendance', size=(15, 1), font=("Helvetica", 15)), sg.Button('Clear Attendance', size=(15, 1), font=("Helvetica", 15))]]
     window = sg.Window('Face Recognition Attendance System', layout, size=(800, 900), element_justification='center', finalize=True)
@@ -152,6 +152,13 @@ def main():
         # If the 'Exit' button is clicked, then exit the program
         if event == sg.WIN_CLOSED or event == 'Exit':
             break
+
+        # If the 'Maximize' button is clicked, then maximize the window
+        if event == 'Maximize':
+            window.Maximize()
+
+        if event == 'Minimize':
+            window.Minimize()
 
         # If the 'Start' button is clicked, then start the program
         if event == 'Start':
