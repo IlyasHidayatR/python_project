@@ -22,6 +22,31 @@ faceDetections = cv2.CascadeClassifier('lab/FaceRecognition/haarcascade_frontalf
 # Path to the attendance file
 attendance = 'lab/FaceRecognition/attendance.csv'
 
+# landmark = cv2.face.createFacemarkLBF()
+# landmark.loadModel('lab/FaceRecognition/lbfmodel.yaml')
+
+# landmark function (with condition)
+# def landmarkFunction(condition):
+#     if condition == True:
+#         faces = faceDetections.detectMultiScale(tampil, scaleFactor=1.3, minNeighbors=5)
+#         for (x, y, w, h) in faces:
+#             cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
+#             _, landmarks = landmark.fit(tampil, faces)
+#             for landmark in landmarks:
+#                 for x, y in landmark[0]:
+#                     cv2.circle(frame, (x, y), 1, (0, 0, 255), -1)
+#         create attendance
+#        if conf > 500:
+#            if id == 1:
+#               id = "Ilyas Hidayat Rusdy"
+#              print confidence dalam persen
+#            window['-OUTPUT-'].update(id)
+#          conf = "{0}%".format(round(conf-100))
+#       print(conf)
+#       condition = False
+#     else:
+#         cv2.putText(frame, "Face Recognition Stopped", (100, 100), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+
 # Main function
 def main():
 
